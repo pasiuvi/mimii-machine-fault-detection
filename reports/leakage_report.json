@@ -1,0 +1,25 @@
+{
+  "group_isolation_ok": true,
+  "exact_duplicate_groups": 0,
+  "exact_duplicates_across_splits": 0,
+  "near_duplicates_confirmed_top20": 0,
+  "shortcut_auc": [
+    {
+      "single feature": "rms_db",
+      "validation ROC-AUC": 0.796
+    }
+  ],
+  "quality": {
+    "unreadable files": 0,
+    "sample rates": [
+      16000
+    ],
+    "channel counts": [
+      8
+    ],
+    "durations (s)": [
+      10.0
+    ],
+    "silent clips (RMS < -60 dB)": 0
+  }
+}

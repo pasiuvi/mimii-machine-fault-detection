@@ -1,0 +1,32 @@
+# --- Data: too big for GitHub; reproduced with scripts/download_mimii.py ---
+data/raw/*
+data/zips/
+data/sample/
+data/processed/*.npz
+!data/raw/.gitkeep
+# keep data/processed/metadata.csv and splits.csv IN Git (they make results reproducible)
+
+# --- Models and run outputs ---
+models/
+*.pt
+*.pth
+*.ckpt
+runs/
+wandb/
+mlruns/
+
+# --- Python / environments ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# --- Editors / OS ---
+.vscode/*
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# --- Secrets (API keys for GenAI later) ---
+.env

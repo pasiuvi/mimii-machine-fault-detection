@@ -1,0 +1,2 @@
+exp_id,date,model_family,what_changed,key_hyperparameters,seed,val_TPR@FPR5,val_ROC_AUC,train_time_min,outcome,what_i_learned,git_commit
+E000,YYYY-MM-DD,trivial,loudness-only logistic regression (trivial benchmark),feature=rms_db,42,,,,,,

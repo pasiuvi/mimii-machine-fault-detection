@@ -1,0 +1,13 @@
+{
+  "pretrained_imagenet_weights_loaded": true,
+  "train_clips": 5058,
+  "train_abnormal": 1020,
+  "pos_weight": 3.959,
+  "initial_loss_64_clips": 0.6933,
+  "cpu_latency_ms_per_10s_clip": 22.8,
+  "total_parameters": 4171325,
+  "overfit_loss_first": 1.6385,
+  "overfit_loss_last": 0.0013,
+  "overfit_train_accuracy_after": 1.0,
+  "overfit_steps": 60
+}

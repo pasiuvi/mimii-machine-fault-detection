@@ -10,7 +10,7 @@ Deep-learning system that listens to a 10-second machine recording and tells a *
 | **User** | Plant maintenance engineer |
 | **Decision** | Raise an inspection work order now vs. wait for the next scheduled service |
 | **Data** | MIMII dataset (Hitachi), pump + fan, 6 dB SNR, 16 kHz audio |
-| **Model** | Pretrained CNN on log-mel spectrograms *(in progress)* |
+| **Model** | ImageNet-pretrained EfficientNet-B0 on 128-band log-mel spectrograms + machine-type input (4.17 M parameters) |
 | **Baseline** | MFCC features + Random Forest / SVM *(in progress)* |
 | **Explainability** | Grad-CAM on the spectrogram *(in progress)* |
 | **GenAI comparison** | Zero-shot CLAP (audio-language foundation model) *(in progress)* |
@@ -18,7 +18,7 @@ Deep-learning system that listens to a 10-second machine recording and tells a *
 
 ## Project status
 - [x] Q1 – Dataset, EDA, leakage checks
-- [ ] Q2 – ANN design and alternatives
+- [x] Q2 – ANN design and alternatives (`python -m src.features`, `python -m scripts.q2_architecture_report`)
 - [ ] Q3 – Training, baseline, optimisation study
 - [ ] Q4 – Web application
 - [ ] Q5 – Explainable AI

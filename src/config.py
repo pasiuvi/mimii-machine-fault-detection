@@ -61,3 +61,22 @@ SPLIT_BY_MACHINE_ID = {
     "id_04": "val",
     "id_06": "test",
 }
+
+# ----------------------------------------------------------------------------
+# Question 2 – model input and architecture settings
+# (EDA used 64 mel bands; the CNN uses 128 so the final feature map keeps more
+#  frequency detail, which also gives Grad-CAM in Q5 a finer map.)
+# ----------------------------------------------------------------------------
+MODEL_N_MELS = 128
+CLIP_FRAMES = 313                       # 10 s at hop 512 / 16 kHz
+CROP_SECONDS = 4.0                      # training uses random 4-s crops (Finding 2: faults are steady)
+CROP_FRAMES = int(CROP_SECONDS * SAMPLE_RATE / HOP_LENGTH) + 1   # = 126
+FEATURE_DIR = PROCESSED_DIR / "logmel128"   # cached spectrograms (NOT on GitHub)
+NORM_STATS = PROCESSED_DIR / "norm_stats.npz"   # per-mel-band mean/std from TRAIN only
+
+GAIN_DB = 6.0           # random loudness shift ±6 dB during training (Finding 3: loudness unreliable)
+SPEC_AUGMENT = {"freq_masks": 2, "freq_width": 12, "time_masks": 2, "time_width": 20}
+
+HEAD_HIDDEN = 128
+DROPOUT = 0.3
+MACHINE_TYPE_INDEX = {"pump": 0, "fan": 1}   # machine TYPE is known at prediction time (ID is not)

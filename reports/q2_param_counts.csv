@@ -1,0 +1,8 @@
+Part,Parameters
+Backbone (EfficientNet-B0 features),4006972
+Head (dense layers),164353
+Total,4171325
+Trainable if last 0 of 9 feature modules are unfrozen (head only),164353
+Trainable if last 3 of 9 feature modules are unfrozen,3320093
+Trainable if last 6 of 9 feature modules are unfrozen,4152811
+Trainable if last 9 of 9 feature modules are unfrozen (full fine-tuning),4171325

@@ -3,6 +3,8 @@ data/raw/*
 data/zips/
 data/sample/
 data/processed/*.npz
+!data/processed/norm_stats.npz
+data/processed/logmel128/
 !data/raw/.gitkeep
 # keep data/processed/metadata.csv and splits.csv IN Git (they make results reproducible)
 

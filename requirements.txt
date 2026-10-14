@@ -17,8 +17,12 @@ ipywidgets>=8.1
 nbclient>=0.10
 nbformat>=5.10
 
+# --- Stage 2: model (Question 2 onwards) ---
+torch>=2.3
+torchvision>=0.18
+torchinfo>=1.8
+
 # --- Later stages (uncomment when we reach them) ---
-# torch / torchaudio      -> Q2-Q3 CNN training (install command depends on GPU; see SETUP_GUIDE)
 # captum                  -> Q5 explainability (Grad-CAM, Integrated Gradients)
 # transformers            -> Q6 CLAP zero-shot model
 # fastapi, uvicorn, gradio -> Q4 web application

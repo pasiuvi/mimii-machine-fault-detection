@@ -1,0 +1,16 @@
+Layer,Type,Output (train crop),Output (full clip),Activation,Parameters
+Input,normalised log-mel (channel 0),1 x 128 x 126,1 x 128 x 313,-,0
+Stem,"Conv 3x3, stride 2 (1->32 ch) + BN",32 x 64 x 63,32 x 64 x 157,SiLU,352
+Stage 1,"1 x MBConv1, k3x3, SE",16 x 64 x 63,16 x 64 x 157,SiLU,1448
+Stage 2,"2 x MBConv6, k3x3, stride 2, SE",24 x 32 x 32,24 x 32 x 79,SiLU,16714
+Stage 3,"2 x MBConv6, k5x5, stride 2, SE",40 x 16 x 16,40 x 16 x 40,SiLU,46640
+Stage 4,"3 x MBConv6, k3x3, stride 2, SE",80 x 8 x 8,80 x 8 x 20,SiLU,242930
+Stage 5,"3 x MBConv6, k5x5, SE",112 x 8 x 8,112 x 8 x 20,SiLU,543148
+Stage 6,"4 x MBConv6, k5x5, stride 2, SE",192 x 4 x 4,192 x 4 x 10,SiLU,2026348
+Stage 7,"1 x MBConv6, k3x3, SE",320 x 4 x 4,320 x 4 x 10,SiLU,717232
+Top conv,Conv 1x1 (320->1280 ch) + BN,1280 x 4 x 4,1280 x 4 x 10,SiLU,412160
+Global avg pool,mean over frequency and time,1280,1280,-,0
+Concat machine type,one-hot pump/fan,1282,1282,-,0
+Dense 1,Linear 1282->128 + Dropout 0.3,128,128,ReLU,164224
+Output,Linear 128->1 (logit),1,1,Sigmoid (score),129
+TOTAL,,,,,4171325

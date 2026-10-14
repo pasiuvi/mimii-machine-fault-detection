@@ -54,6 +54,7 @@ pip install -r requirements.txt
 python -m scripts.download_mimii  # ~18 GB: 6_dB_pump.zip + 6_dB_fan.zip, MD5-verified
 python -m src.build_metadata
 python -m src.make_splits
+# or run all of Question 1 at once (never downloads):  python -m scripts.run_q1 --notebook
 python -m src.leakage_checks
 # then open notebooks/01_eda.ipynb and Run All
 ```

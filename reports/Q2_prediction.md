@@ -9,6 +9,8 @@ The commit date of this file is the evidence that the prediction came first.
 
 **Prediction:** I expect the **fine-tuned CNN (ANN)** to score **higher than the classical baseline** (MFCC statistics + tuned Random Forest / SVM / logistic regression), but **only by a small margin**. I expect the 95 % bootstrap confidence intervals of the two models to overlap. I also think it is quite possible that the baseline wins on **one machine type**, most likely the fan.
 
+**Why the fan (added before any training, second commit):** fan faults show up as a broad change in the shape of the whole spectrum (more energy below 50 Hz and less at 0.5–2.5 kHz; Q1 Figure 3). MFCC features are designed to capture exactly this kind of spectral shape. The fans also have three times more abnormal training clips than the pumps (766 vs 254), so the baseline has more examples to learn from. Pump faults are narrower band changes (431–910 Hz), where the CNN's detailed time–frequency view should help more.
+
 ## Why
 
 **Reasons the ANN should be ahead**

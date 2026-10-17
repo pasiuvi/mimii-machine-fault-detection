@@ -34,18 +34,24 @@ async function init() {
   loadExamples();
 }
 
+let EXAMPLES = [];
 async function loadExamples() {
   try {
-    const ex = await (await fetch("/api/examples")).json();
-    if (!ex.length) return;
-    $("examples").innerHTML = ex.map((e) => `
+    EXAMPLES = await (await fetch("/api/examples")).json();
+    renderExamples();
+  } catch (e) { /* examples are optional */ }
+}
+
+// Only the demo clips of the selected machine type are listed, so the list always matches the toggle.
+function renderExamples() {
+  const ex = EXAMPLES.filter((e) => e.machine_type === state.type);
+  $("examples").innerHTML = ex.length ? ex.map((e) => `
       <li class="ex">
         <span class="tag ${e.true_label}">${e.true_label}</span>
         <div class="ex-info"><b>${esc(e.machine)}</b><span>${esc(e.file)} · Q3 result: ${esc(e.kind)}</span></div>
         <button class="ghost" data-ex="${e.id}" data-type="${e.machine_type}" data-file="${esc(e.file)}">Run</button>
-      </li>`).join("");
-    document.querySelectorAll("[data-ex]").forEach((b) => b.addEventListener("click", () => runExample(b)));
-  } catch (e) { /* examples are optional */ }
+      </li>`).join("") : `<li class="muted">No ${state.type} demo clips found on this computer.</li>`;
+  document.querySelectorAll("[data-ex]").forEach((b) => b.addEventListener("click", () => runExample(b)));
 }
 
 // ---------------- input handling ----------------
@@ -57,6 +63,7 @@ function setType(t) {
     b.classList.toggle("active", on);
     b.setAttribute("aria-checked", on);
   });
+  if (EXAMPLES.length) renderExamples();
 }
 
 const dz = $("dropzone");
@@ -94,7 +101,6 @@ $("analyse").addEventListener("click", async () => {
 });
 
 async function runExample(btn) {
-  setType(btn.dataset.type);
   setFile(null);
   $("player").src = `/api/examples/${btn.dataset.ex}/audio`;
   $("player").classList.remove("hidden");

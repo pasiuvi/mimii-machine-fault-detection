@@ -6,7 +6,7 @@ Examples (run from the project folder, .venv active):
     python -m scripts.q3_run_experiments --list                 # show the plan and what is done
     python -m scripts.q3_run_experiments --group initial improve
     python -m scripts.q3_run_experiments --group lr bs depth
-    python -m scripts.q3_run_experiments --group optim ablation failed
+    python -m scripts.q3_run_experiments --group optim ablation domain failed
     python -m scripts.q3_run_experiments --ids E006             # one experiment
     python -m scripts.q3_run_experiments --all                  # everything still missing
     python -m scripts.q3_run_experiments --final                # pick best config + 2 extra seeds
@@ -25,7 +25,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src import config  # noqa: E402
-from src.experiment_plan import EXPERIMENTS, GROUPS, PLAN  # noqa: E402
+from src.experiment_plan import EXPERIMENTS, GROUPS, PLAN, REF_ID  # noqa: E402
 from src.train import RUNS_DIR, run_experiment  # noqa: E402
 
 FINAL_JSON = config.ROOT / "experiments" / "final_config.json"
@@ -41,28 +41,41 @@ def show_plan() -> None:
     for e in EXPERIMENTS:
         s = json.loads((RUNS_DIR / e["id"] / "summary.json").read_text()) if done(e["id"]) else {}
         rows.append({"id": e["id"], "group": e["group"], "done": "yes" if s else "",
-                     "val_TPR@FPR5": round(s["val_TPR@FPR5"], 3) if s else "",
-                     "what": e["what"][:80]})
+                     "val_macro_TPR": round(s["val_macro_TPR@FPR5"], 3) if s else "",
+                     "stable": round(s["val_stable_macro_TPR@FPR5"], 3) if s else "",
+                     "what": e["what"][:70]})
     print(pd.DataFrame(rows).to_string(index=False))
 
 
 def select_final() -> dict:
-    """Best development run by VALIDATION TPR@FPR5 (ties -> higher val pAUC). Never uses test."""
+    """Pick the final design on VALIDATION only (never test).
+    Rule (fixed before Round 1): highest STABLE val macro TPR@FPR5 = mean over the best epoch and
+    its two neighbours, so one lucky epoch cannot win; tie-break val macro pAUC(0.1).
+    Candidates: every finished, non-diverged run except the initial model."""
     cands = []
     for e in EXPERIMENTS:
-        if e["group"] in ("initial",) or not done(e["id"]):
+        if e["group"] == "initial" or not done(e["id"]):
             continue
         s = json.loads((RUNS_DIR / e["id"] / "summary.json").read_text())
         if not s.get("diverged"):
             cands.append(s)
     if not cands:
         raise SystemExit("No development runs finished yet.")
-    best = max(cands, key=lambda s: (s["val_TPR@FPR5"], s["val_pAUC_0.1"]))
-    sel = {"selected_from": best["exp_id"], "rule": "max validation TPR@FPR5, tie-break validation pAUC",
-           "n_candidates": len(cands), "val_TPR@FPR5": best["val_TPR@FPR5"], "cfg": best["cfg"]}
+    best = max(cands, key=lambda s: (s["val_stable_macro_TPR@FPR5"], s["val_macro_pAUC_0.1"]))
+    top = sorted(cands, key=lambda s: -s["val_stable_macro_TPR@FPR5"])[:5]
+    sel = {"selected_from": best["exp_id"],
+           "rule": "max STABLE validation macro TPR@FPR5 (best epoch +-1), tie-break validation macro pAUC(0.1)",
+           "n_candidates": len(cands), "val_macro_TPR@FPR5": best["val_macro_TPR@FPR5"],
+           "val_stable_macro_TPR@FPR5": best["val_stable_macro_TPR@FPR5"],
+           "top5": [{"id": s["exp_id"], "stable": round(s["val_stable_macro_TPR@FPR5"], 4),
+                     "best": round(s["val_macro_TPR@FPR5"], 4)} for s in top],
+           "cfg": best["cfg"]}
     FINAL_JSON.write_text(json.dumps(sel, indent=2))
-    print(f"\nSelected {best['exp_id']} (val TPR@FPR5 = {best['val_TPR@FPR5']:.3f}) out of "
-          f"{len(cands)} development runs -> {FINAL_JSON.relative_to(config.ROOT)}")
+    print(f"\nSelected {best['exp_id']} (stable val macro TPR@FPR5 = {best['val_stable_macro_TPR@FPR5']:.3f}, "
+          f"best epoch {best['val_macro_TPR@FPR5']:.3f}) out of {len(cands)} runs -> "
+          f"{FINAL_JSON.relative_to(config.ROOT)}")
+    for s in sel["top5"]:
+        print(f"   {s['id']:<6} stable {s['stable']:.3f}  best {s['best']:.3f}")
     return sel
 
 
@@ -84,7 +97,7 @@ def main() -> None:
     if a.smoke:
         import shutil
         from src.train import LOG_CSV, MODELS_DIR
-        s = run_experiment("SMOKE", PLAN["E003"]["cfg"], what="smoke test", group="smoke", max_epochs=1,
+        s = run_experiment("SMOKE", PLAN[REF_ID]["cfg"], what="smoke test", group="smoke", max_epochs=1,
                            num_workers=a.workers)
         shutil.rmtree(RUNS_DIR / "SMOKE", ignore_errors=True)
         (MODELS_DIR / "SMOKE.pt").unlink(missing_ok=True)

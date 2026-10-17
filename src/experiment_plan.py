@@ -1,110 +1,148 @@
 """
-Question 3 – the complete, pre-planned list of neural-network experiments.
+Question 3 – the complete, pre-planned list of neural-network experiments (ROUND 1).
 
-Every run is defined here BEFORE it is run, with its hypothesis. All runs use the
-SAME split (train / validation), and are compared on VALIDATION only. The test set
-is touched once, at the very end, by scripts/q3_final_evaluate.py.
+Why a Round 1?  Round 0 (archived in experiments/archive/round0_*) showed three problems
+on the validation machine (id_04), BEFORE any test use:
+  1. Over-fitting to the 2 training machines: train loss -> 0.002 while val loss rose to 4-9.
+  2. Pooled TPR@FPR5 mixes pumps and fans whose scores sit on different scales
+     (E001: pump 0.17, fan 0.39, but pooled 0.07). The engineer always knows the type,
+     so the PRIMARY metric is now MACRO TPR@FPR5 (one threshold per machine type).
+  3. The validation metric jumped between epochs (0.00 -> 0.37), so "best epoch" was luck.
+Round 1 therefore adds ANN techniques aimed at generalising to an UNSEEN machine
+(lower LR + stronger weight decay, weight EMA, within-type mixup) and a more stable
+selection rule. Every run is defined here BEFORE it runs, with its hypothesis.
+All runs use the same train/val split and are compared on VALIDATION only.
 
 Groups
   initial  : the first, simple neural model                         (Q3a "initial ANN")
-  improve  : the steps that turned it into the final design         (Q3a "how it was improved")
-  lr       : learning-rate study                                    (Q3b hyperparameter 1)
+  improve  : step-by-step improvements, one change at a time        (Q3a "how it was improved")
+  lr       : learning-rate study, around the reference E005         (Q3b hyperparameter 1)
   bs       : batch-size study                                       (Q3b hyperparameter 2)
   depth    : fine-tuning depth = number of unfrozen modules         (Q3b hyperparameter 3)
-  optim    : optimiser comparison AdamW / Adam(L2) / SGD-momentum   (Q3b optimisers)
-  ablation : remove one augmentation at a time                      (supports Q2 design choices)
+  optim    : AdamW / Adam(L2) / SGD-momentum                        (Q3b optimisers)
+  ablation : remove one ingredient of the reference at a time       (which parts matter)
+  domain   : one idea aimed directly at the machine-to-machine shift
   failed   : designed experiments expected to fail, with a reason   (Q3b "did not work")
-  final    : best development config, re-run with 2 extra seeds     (seed variance)
+  final    : selected config, re-run with 2 extra seeds             (seed variance)
 """
 from __future__ import annotations
 
-# Shared defaults = the Q2 design ("reference" config, E003)
-BASE = {
+# ---- Q2 design, as used in Round 0 (E003 below) ----
+Q2 = {
     "pretrained": True,
-    "trainable_stages": 9,          # full fine-tuning
+    "trainable_stages": 9,          # full fine-tuning (9 of 9 feature modules)
     "optimizer": "adamw",
     "lr": 3e-4,
     "weight_decay": 1e-2,
     "momentum": 0.9,                # only used by SGD
     "batch_size": 32,
     "max_epochs": 25,
-    "patience": 6,                  # early stopping on validation TPR@FPR5
+    "patience": 7,                  # early stopping on the selection metric (val macro TPR@FPR5)
     "scheduler": "cosine",          # 1 warm-up epoch then cosine decay
     "augment": True,
     "aug": {"crop": True, "gain": True, "specaug": True, "freq_shift": False},
-    "pos_weight": "auto",           # negatives / positives in train (3.959)
+    "mixup_alpha": 0.0,             # 0 = off; >0 = Beta(alpha, alpha) mixing WITHIN a machine type
+    "ema_decay": 0.0,               # 0 = off; e.g. 0.998 = exponential moving average of the weights
+    "clip_norm": False,             # per-clip band-mean removal (domain experiment)
+    "pos_weight": "auto",           # negatives / positives in train (~3.96)
     "seed": 42,
 }
 
 
-def _cfg(**over):
-    c = {**BASE, **{k: v for k, v in over.items() if k != "aug"}}
-    c["aug"] = {**BASE["aug"], **over.get("aug", {})}
+def _cfg(base=Q2, **over):
+    c = {**base, **{k: v for k, v in over.items() if k != "aug"}}
+    c["aug"] = {**base["aug"], **over.get("aug", {})}
     return c
+
+
+# ---- REFERENCE design for all studies (= E005): the end of the improvement path ----
+REF_ID = "E005"
+REF = _cfg(lr=1e-4, weight_decay=5e-2, ema_decay=0.998, mixup_alpha=0.4)
+
+
+def _ref(**over):
+    return _cfg(REF, **over)
 
 
 EXPERIMENTS = [
     # ---------------- initial model ----------------
     dict(id="E001", group="initial",
          what="Initial ANN: frozen pretrained backbone (head only), Adam 1e-3, no augmentation, constant LR",
-         hypothesis="A simple transfer-learning starting point; expected to under-fit because only 164k head weights learn",
+         hypothesis="Simple transfer-learning start; expected to UNDER-fit (only ~164k head weights learn)",
          cfg=_cfg(trainable_stages=0, optimizer="adam", lr=1e-3, weight_decay=0.0, augment=False,
                   scheduler="none", max_epochs=15)),
-    # ---------------- improvement steps ----------------
+    # ---------------- improvement path (one change per step) ----------------
     dict(id="E002", group="improve",
-         what="Unfreeze the whole backbone (full fine-tuning), AdamW 3e-4 + cosine, still no augmentation",
-         hypothesis="More capacity fixes under-fitting but will over-fit the 4 training machines without augmentation",
+         what="Step 1: unfreeze the whole backbone (full fine-tuning), AdamW 3e-4 + cosine, no augmentation",
+         hypothesis="Fixes under-fitting but OVER-fits the training machines (Round 0: val loss rose to 4-9)",
          cfg=_cfg(augment=False)),
     dict(id="E003", group="improve",
-         what="Reference design (Q2): full fine-tuning + crop + gain + SpecAugment, AdamW 3e-4, cosine",
-         hypothesis="Augmentation reduces over-fitting and improves validation TPR@FPR5",
+         what="Step 2: + Q2 augmentation (random 4-s crop, +-6 dB gain, SpecAugment)",
+         hypothesis="Augmentation narrows the train/val gap but is not enough on its own (Round 0)",
          cfg=_cfg()),
-    # ---------------- learning rate ----------------
-    dict(id="E004", group="lr", what="Learning rate 1e-4 (else = E003)",
-         hypothesis="Too small: slower progress, may stop before converging", cfg=_cfg(lr=1e-4)),
-    dict(id="E005", group="lr", what="Learning rate 1e-3 (else = E003)",
-         hypothesis="Faster, but may damage pretrained features", cfg=_cfg(lr=1e-3)),
-    dict(id="E006", group="lr", what="Learning rate 3e-3 (else = E003)",
-         hypothesis="Expected to FAIL: too large for fine-tuning, unstable loss", cfg=_cfg(lr=3e-3)),
-    # ---------------- batch size ----------------
-    dict(id="E007", group="bs", what="Batch size 16 (else = E003)",
-         hypothesis="Noisier gradients act as regularisation; more steps per epoch", cfg=_cfg(batch_size=16)),
-    dict(id="E008", group="bs", what="Batch size 64 (else = E003)",
-         hypothesis="Smoother gradients but fewer updates; BatchNorm statistics more stable",
-         cfg=_cfg(batch_size=64)),
-    # ---------------- fine-tuning depth ----------------
-    dict(id="E009", group="depth", what="Fine-tune last 0 of 9 modules (head only) WITH augmentation",
-         hypothesis="Frozen ImageNet features are not specific enough for machine sounds", cfg=_cfg(trainable_stages=0)),
-    dict(id="E010", group="depth", what="Fine-tune last 3 of 9 modules",
-         hypothesis="Adapting only high-level layers keeps generic low-level filters", cfg=_cfg(trainable_stages=3)),
-    dict(id="E011", group="depth", what="Fine-tune last 6 of 9 modules",
-         hypothesis="Middle ground between capacity and preserved pretraining", cfg=_cfg(trainable_stages=6)),
-    # ---------------- optimisers ----------------
-    dict(id="E012", group="optim", what="Adam with coupled L2 weight decay 1e-4, lr 3e-4",
-         hypothesis="Similar to AdamW; L2 interacts with adaptive scaling so regularisation is weaker",
-         cfg=_cfg(optimizer="adam", weight_decay=1e-4)),
-    dict(id="E013", group="optim", what="SGD + momentum 0.9 (Nesterov), lr 1e-2, wd 1e-4",
-         hypothesis="Needs a larger LR; slower start than Adam-type, can generalise well",
-         cfg=_cfg(optimizer="sgd", lr=1e-2, weight_decay=1e-4)),
-    dict(id="E014", group="optim", what="SGD + momentum 0.9 (Nesterov), lr 3e-3, wd 1e-4",
-         hypothesis="Checks SGD's sensitivity to the learning rate",
-         cfg=_cfg(optimizer="sgd", lr=3e-3, weight_decay=1e-4)),
-    # ---------------- augmentation ablation ----------------
-    dict(id="E015", group="ablation", what="Remove the +-6 dB gain augmentation",
-         hypothesis="Validation may rise (loudness helps on the val machine) but the model relies on loudness",
-         cfg=_cfg(aug={"gain": False})),
-    dict(id="E016", group="ablation", what="Remove SpecAugment",
-         hypothesis="More over-fitting: larger train/val gap", cfg=_cfg(aug={"specaug": False})),
+    dict(id="E004", group="improve",
+         what="Step 3: + gentler fine-tuning: LR 1e-4, weight decay 0.05, EMA of weights (decay 0.998)",
+         hypothesis="Smaller, smoother updates keep more of the general pretrained features and make "
+                    "the validation curve less jumpy (EMA averages ~500 steps)",
+         cfg=_cfg(lr=1e-4, weight_decay=5e-2, ema_decay=0.998)),
+    dict(id="E005", group="improve",
+         what="Step 4 = REFERENCE: + mixup within machine type (alpha 0.4)",
+         hypothesis="Mixing clips forbids memorising individual recordings; best generalisation to the new machine",
+         cfg=REF),
+    # ---------------- learning rate (reference = 1e-4) ----------------
+    dict(id="E006", group="lr", what="Learning rate 3e-5 (else = E005)",
+         hypothesis="Too small: under-trains within 25 epochs", cfg=_ref(lr=3e-5)),
+    dict(id="E007", group="lr", what="Learning rate 3e-4 (else = E005)",
+         hypothesis="Faster, but more over-fitting to the training machines", cfg=_ref(lr=3e-4)),
+    dict(id="E008", group="lr", what="Learning rate 1e-3 (else = E005)",
+         hypothesis="Too large for fine-tuning: destroys pretrained features, unstable", cfg=_ref(lr=1e-3)),
+    # ---------------- batch size (reference = 32) ----------------
+    dict(id="E009", group="bs", what="Batch size 16 (else = E005)",
+         hypothesis="Noisier gradients regularise; twice the steps per epoch", cfg=_ref(batch_size=16)),
+    dict(id="E010", group="bs", what="Batch size 64 (else = E005)",
+         hypothesis="Smoother gradients, half the updates; may need a larger LR", cfg=_ref(batch_size=64)),
+    # ---------------- fine-tuning depth (reference = 9 of 9) ----------------
+    dict(id="E011", group="depth", what="Fine-tune last 0 of 9 modules (head only), else = E005",
+         hypothesis="Frozen ImageNet features generalise but are not specific enough",
+         cfg=_ref(trainable_stages=0, lr=1e-3)),
+    dict(id="E012", group="depth", what="Fine-tune last 3 of 9 modules, else = E005",
+         hypothesis="Adapting only high-level layers keeps generic filters -> may transfer best",
+         cfg=_ref(trainable_stages=3)),
+    dict(id="E013", group="depth", what="Fine-tune last 6 of 9 modules, else = E005",
+         hypothesis="Middle ground between capacity and preserved pretraining", cfg=_ref(trainable_stages=6)),
+    # ---------------- optimisers (reference = AdamW) ----------------
+    dict(id="E014", group="optim", what="Adam with coupled L2 (weight_decay 1e-4), else = E005",
+         hypothesis="L2 inside Adam is scaled by the adaptive step, so it regularises less than AdamW",
+         cfg=_ref(optimizer="adam", weight_decay=1e-4)),
+    dict(id="E015", group="optim", what="SGD + Nesterov momentum 0.9, lr 1e-2, wd 1e-4, else = E005",
+         hypothesis="Needs a ~100x larger LR; slower start, often generalises well",
+         cfg=_ref(optimizer="sgd", lr=1e-2, weight_decay=1e-4)),
+    dict(id="E016", group="optim", what="SGD + Nesterov momentum 0.9, lr 3e-3, wd 1e-4, else = E005",
+         hypothesis="Shows how sensitive SGD is to its learning rate",
+         cfg=_ref(optimizer="sgd", lr=3e-3, weight_decay=1e-4)),
+    # ---------------- ablations (remove one ingredient of E005) ----------------
+    dict(id="E017", group="ablation", what="Remove EMA of weights (else = E005)",
+         hypothesis="Validation metric becomes noisier between epochs", cfg=_ref(ema_decay=0.0)),
+    dict(id="E018", group="ablation", what="Remove SpecAugment (else = E005)",
+         hypothesis="More over-fitting: larger train/val gap", cfg=_ref(aug={"specaug": False})),
+    dict(id="E019", group="ablation", what="Remove the +-6 dB gain augmentation (else = E005)",
+         hypothesis="Model leans on loudness, which Q1 showed is machine-specific", cfg=_ref(aug={"gain": False})),
+    # ---------------- domain shift ----------------
+    dict(id="E020", group="domain", what="Per-clip band-mean removal (clip_norm), else = E005",
+         hypothesis="Removes each machine's own spectral envelope (domain shift) - but may also remove "
+                    "the steady fault tone (Q1 Finding 2); uncertain",
+         cfg=_ref(clip_norm=True)),
     # ---------------- designed failures ----------------
-    dict(id="E017", group="failed", what="Train from scratch (no ImageNet weights), else = E003",
-         hypothesis="Expected to FAIL: 4 training machines are too few to learn good filters (Q2 2.b)",
-         cfg=_cfg(pretrained=False, lr=1e-3)),
-    dict(id="E018", group="failed", what="Add random frequency-shift augmentation (+-8 mel bands)",
+    dict(id="E021", group="failed", what="Train from scratch (no ImageNet weights), LR 1e-3, else = E005",
+         hypothesis="Expected to FAIL: 2 machines per type are too few to learn good filters (Q2 2.b)",
+         cfg=_ref(pretrained=False, lr=1e-3)),
+    dict(id="E022", group="failed", what="Add random frequency-shift augmentation (+-8 mel bands)",
          hypothesis="Expected to FAIL: breaks the Q2 assumption that frequency position carries meaning",
-         cfg=_cfg(aug={"freq_shift": True})),
-    dict(id="E019", group="failed", what="Unweighted loss (pos_weight = 1)",
-         hypothesis="Rare faults get less attention; ranking at low FPR may suffer", cfg=_cfg(pos_weight=1.0)),
+         cfg=_ref(aug={"freq_shift": True})),
+    dict(id="E023", group="failed", what="Unweighted loss (pos_weight = 1), else = E005",
+         hypothesis="Expected to hurt: rare faults get less weight, low-FPR ranking suffers",
+         cfg=_ref(pos_weight=1.0)),
 ]
 
 PLAN = {e["id"]: e for e in EXPERIMENTS}
-GROUPS = ["initial", "improve", "lr", "bs", "depth", "optim", "ablation", "failed"]
+GROUPS = ["initial", "improve", "lr", "bs", "depth", "optim", "ablation", "domain", "failed"]

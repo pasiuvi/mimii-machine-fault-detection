@@ -1,6 +1,7 @@
 """
 Question 3a – trivial benchmark + tuned classical baseline (validation only).
 
+  Selection metric = val MACRO TPR@FPR5 (one threshold per machine type), the same as the ANN.
   E000  trivial benchmark : logistic regression on clip loudness (RMS dB) only
   B001  classical baseline: MFCC statistics + best of 30 configurations (see src/baseline.py)
 
@@ -51,6 +52,14 @@ def load_features() -> dict:
     return out
 
 
+def val_cols(mv: dict) -> dict:
+    """Validation columns of the experiment log (same names as the ANN rows)."""
+    return {"val_macro_TPR@FPR5": mv["macro"]["TPR@FPR5"], "val_stable_macro_TPR@FPR5": "",
+            "val_macro_pAUC_0.1": mv["macro"]["pAUC_0.1"], "val_TPR@FPR5_pump": mv["pump"]["TPR@FPR5"],
+            "val_TPR@FPR5_fan": mv["fan"]["TPR@FPR5"], "val_pooled_TPR@FPR5": mv["all"]["TPR@FPR5"],
+            "val_pooled_ROC_AUC": mv["all"]["ROC_AUC"], "train_loss@best": "", "val_loss@best": ""}
+
+
 def loudness(split: str) -> np.ndarray:
     feats = get_summary()
     rms = dict(zip(feats["path"], feats["rms_db"]))
@@ -70,14 +79,12 @@ def main() -> None:
     tfit = time.time() - t0
     mt = metrics_by_type(yva, triv.predict_proba(Lva)[:, 1], tva)
     joblib.dump(triv, MODELS / "trivial.joblib")
-    print(f"Trivial (loudness only): val TPR@FPR5 = {mt['all']['TPR@FPR5']:.3f}, AUC = {mt['all']['ROC_AUC']:.3f}")
+    print(f"Trivial (loudness only): val macro TPR@FPR5 = {mt['macro']['TPR@FPR5']:.3f} "
+          f"(pump {mt['pump']['TPR@FPR5']:.3f}, fan {mt['fan']['TPR@FPR5']:.3f}), pooled {mt['all']['TPR@FPR5']:.3f}")
     write_log_row({"exp_id": "E000", "date": datetime.now().strftime("%Y-%m-%d %H:%M"), "group": "benchmark",
                    "model_family": "Trivial", "what_changed": "Logistic regression on clip loudness (RMS dB) only",
                    "key_hyperparameters": "feature=rms_db", "seed": config.SEED, "epochs_run": "", "best_epoch": "",
-                   "val_TPR@FPR5": round(mt["all"]["TPR@FPR5"], 4), "val_ROC_AUC": round(mt["all"]["ROC_AUC"], 4),
-                   "val_pAUC_0.1": round(mt["all"]["pAUC_0.1"], 4),
-                   "val_TPR@FPR5_pump": round(mt["pump"]["TPR@FPR5"], 4),
-                   "val_TPR@FPR5_fan": round(mt["fan"]["TPR@FPR5"], 4),
+                   **val_cols(mt),
                    "train_time_min": round(tfit / 60, 4), "hypothesis": "Reference: how far loudness alone gets",
                    "outcome": "completed", "what_i_learned": "", "git_commit": git_commit()})
 
@@ -93,15 +100,17 @@ def main() -> None:
         fit_s = time.time() - t0
         mv = metrics_by_type(yva, scores(m, Zva), tva)
         rows.append({"config": k, "family": family, "params": json.dumps(params),
-                     "val_TPR@FPR5": mv["all"]["TPR@FPR5"], "val_ROC_AUC": mv["all"]["ROC_AUC"],
-                     "val_pAUC_0.1": mv["all"]["pAUC_0.1"], "val_TPR@FPR5_pump": mv["pump"]["TPR@FPR5"],
-                     "val_TPR@FPR5_fan": mv["fan"]["TPR@FPR5"], "fit_time_s": round(fit_s, 2)})
-        print(f"  [{k:2d}/{len(space)}] {family:<12} {json.dumps(params):<60} "
-              f"val TPR@5% {mv['all']['TPR@FPR5']:.3f}  AUC {mv['all']['ROC_AUC']:.3f}  ({fit_s:.1f}s)")
+                     "val_macro_TPR@FPR5": mv["macro"]["TPR@FPR5"], "val_macro_pAUC_0.1": mv["macro"]["pAUC_0.1"],
+                     "val_macro_ROC_AUC": mv["macro"]["ROC_AUC"], "val_TPR@FPR5_pump": mv["pump"]["TPR@FPR5"],
+                     "val_TPR@FPR5_fan": mv["fan"]["TPR@FPR5"], "val_pooled_TPR@FPR5": mv["all"]["TPR@FPR5"],
+                     "val_pooled_ROC_AUC": mv["all"]["ROC_AUC"], "fit_time_s": round(fit_s, 2), "_mv": mv})
+        print(f"  [{k:2d}/{len(space)}] {family:<12} {json.dumps(params):<58} "
+              f"val macro TPR@5% {mv['macro']['TPR@FPR5']:.3f} (pump {mv['pump']['TPR@FPR5']:.3f}, "
+              f"fan {mv['fan']['TPR@FPR5']:.3f})  ({fit_s:.1f}s)")
     res = pd.DataFrame(rows)
-    res.to_csv(config.ROOT / "experiments" / "baseline_search.csv", index=False)
+    res.drop(columns="_mv").to_csv(config.ROOT / "experiments" / "baseline_search.csv", index=False)
 
-    best = res.sort_values(["val_TPR@FPR5", "val_pAUC_0.1"], ascending=False).iloc[0]
+    best = res.sort_values(["val_macro_TPR@FPR5", "val_macro_pAUC_0.1"], ascending=False).iloc[0]
     family, params = best.family, json.loads(best.params)
     make = [mk for f, p, mk in space if f == family and p == params][0]
     t0 = time.time()
@@ -109,19 +118,16 @@ def main() -> None:
     fit_s = time.time() - t0
     joblib.dump({"scaler": scaler, "model": model, "family": family, "params": params}, MODELS / "baseline.joblib")
 
-    per_family = res.groupby("family")["val_TPR@FPR5"].max().round(3).to_dict()
-    print(f"\nBest per family (val TPR@FPR5): {per_family}")
-    print(f"SELECTED baseline: {family} {params}  val TPR@FPR5 = {best['val_TPR@FPR5']:.3f}")
+    per_family = res.groupby("family")["val_macro_TPR@FPR5"].max().round(3).to_dict()
+    print(f"\nBest per family (val macro TPR@FPR5): {per_family}")
+    print(f"SELECTED baseline: {family} {params}  val macro TPR@FPR5 = {best['val_macro_TPR@FPR5']:.3f}")
     write_log_row({"exp_id": "B001", "date": datetime.now().strftime("%Y-%m-%d %H:%M"), "group": "baseline",
                    "model_family": "Classical (MFCC stats)",
                    "what_changed": f"Best of {len(space)} configs over 4 families; best={family}",
                    "key_hyperparameters": json.dumps(params), "seed": config.SEED, "epochs_run": "", "best_epoch": "",
-                   "val_TPR@FPR5": round(best["val_TPR@FPR5"], 4), "val_ROC_AUC": round(best["val_ROC_AUC"], 4),
-                   "val_pAUC_0.1": round(best["val_pAUC_0.1"], 4),
-                   "val_TPR@FPR5_pump": round(best["val_TPR@FPR5_pump"], 4),
-                   "val_TPR@FPR5_fan": round(best["val_TPR@FPR5_fan"], 4),
+                   **val_cols(best["_mv"]),
                    "train_time_min": round(fit_s / 60, 3),
-                   "hypothesis": "Tuned classical model with comparable search effort (30 configs vs ~22 ANN runs)",
+                   "hypothesis": "Tuned classical model with comparable search effort (30 configs vs ~25 ANN runs)",
                    "outcome": f"best per family: {per_family}", "what_i_learned": "", "git_commit": git_commit()})
     print("Saved models/baseline.joblib, models/trivial.joblib, experiments/baseline_search.csv")
 

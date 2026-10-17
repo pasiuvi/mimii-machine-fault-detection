@@ -1,16 +1,15 @@
-"""Shared evaluation helpers: predictions, per-machine metrics, bootstrap CIs, latency."""
+"""Shared evaluation helpers: predictions, per-type metrics, bootstrap CIs, operating points, latency."""
 from __future__ import annotations
 
 import time
 
 import numpy as np
-import pandas as pd
 import torch
 from scipy.special import expit
 from torch.utils.data import DataLoader
 
 from src import config
-from src.metrics import MAX_FPR, evaluate, threshold_for_fpr, tpr_at_fpr
+from src.metrics import MAX_FPR, TYPES, evaluate, macro_tpr_at_fpr, threshold_for_fpr
 
 
 def get_device() -> torch.device:
@@ -36,37 +35,49 @@ def predict_scores(model, dataset, device, batch_size: int = 64) -> np.ndarray:
 
 
 def metrics_by_type(y: np.ndarray, s: np.ndarray, mtype: np.ndarray) -> dict:
-    """Overall + per machine type metrics. mtype: array of 'pump'/'fan' strings."""
+    """'macro' (PRIMARY: mean over machine types, i.e. one threshold per type),
+    'all' (pooled ranking, the Q1 definition, secondary) and each type separately."""
     res = {"all": evaluate(y, s)}
-    for t in ["pump", "fan"]:
+    for t in TYPES:
         k = mtype == t
         if k.any() and len(np.unique(y[k])) == 2:
             res[t] = evaluate(y[k], s[k])
+    present = [t for t in TYPES if t in res]
+    res["macro"] = {key: round(float(np.mean([res[t][key] for t in present])), 4)
+                    for key in ["TPR@FPR5", "ROC_AUC", "pAUC_0.1"]}
     return res
 
 
-def bootstrap_ci(y: np.ndarray, s: np.ndarray, fn=tpr_at_fpr, n: int = 1000,
-                 seed: int = config.SEED, stratify: np.ndarray | None = None) -> tuple[float, float]:
-    """95 % percentile bootstrap CI, resampling clips within each label (and machine type)."""
+def bootstrap_ci(y, s, mtype, fn=macro_tpr_at_fpr, n: int = 1000, seed: int = config.SEED):
+    """95 % percentile bootstrap CI; resamples clips within each (label, machine type) cell."""
     rng = np.random.default_rng(seed)
-    groups = pd.Series(list(zip(y, stratify if stratify is not None else np.zeros_like(y))))
-    idx_by_group = [np.where(groups == g)[0] for g in groups.unique()]
+    cells = [np.where((y == lab) & (mtype == t))[0] for lab in (0, 1) for t in np.unique(mtype)]
+    cells = [c for c in cells if len(c)]
     vals = []
     for _ in range(n):
-        idx = np.concatenate([rng.choice(g, size=len(g), replace=True) for g in idx_by_group])
-        vals.append(fn(y[idx], s[idx]))
+        idx = np.concatenate([rng.choice(c, size=len(c), replace=True) for c in cells])
+        vals.append(fn(y[idx], s[idx], mtype[idx]))
     return float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))
 
 
-def operating_point(y_val, s_val, y_test, s_test, max_fpr: float = MAX_FPR) -> dict:
-    """Threshold chosen on VALIDATION, then applied unchanged to TEST (what the app will do)."""
-    thr = threshold_for_fpr(y_val, s_val, max_fpr)
-    pred = s_test >= thr
-    tp = int(((pred == 1) & (y_test == 1)).sum()); fn = int(((pred == 0) & (y_test == 1)).sum())
-    fp = int(((pred == 1) & (y_test == 0)).sum()); tn = int(((pred == 0) & (y_test == 0)).sum())
-    return {"threshold": float(thr), "TP": tp, "FN": fn, "FP": fp, "TN": tn,
-            "test_TPR_at_val_threshold": tp / max(tp + fn, 1),
-            "test_FPR_at_val_threshold": fp / max(fp + tn, 1)}
+def type_thresholds(y_val, s_val, t_val, max_fpr: float = MAX_FPR) -> dict:
+    """One alarm threshold per machine type, chosen on VALIDATION at 5 % false alarms."""
+    return {t: threshold_for_fpr(y_val[t_val == t], s_val[t_val == t], max_fpr) for t in TYPES}
+
+
+def operating_points(y_val, s_val, t_val, y_test, s_test, t_test, max_fpr: float = MAX_FPR) -> dict:
+    """Per-type threshold chosen on VALIDATION, applied unchanged to TEST (exactly what the app does)."""
+    thr = type_thresholds(y_val, s_val, t_val, max_fpr)
+    out = {}
+    for t in TYPES:
+        k = t_test == t
+        pred, yt = s_test[k] >= thr[t], y_test[k]
+        tp = int((pred & (yt == 1)).sum()); fn = int((~pred & (yt == 1)).sum())
+        fp = int((pred & (yt == 0)).sum()); tn = int((~pred & (yt == 0)).sum())
+        out[t] = {"threshold": float(thr[t]), "TP": tp, "FN": fn, "FP": fp, "TN": tn,
+                  "test_TPR_at_val_threshold": round(tp / max(tp + fn, 1), 4),
+                  "test_FPR_at_val_threshold": round(fp / max(fp + tn, 1), 4)}
+    return out
 
 
 def time_it(fn, repeats: int = 20, warmup: int = 3) -> float:

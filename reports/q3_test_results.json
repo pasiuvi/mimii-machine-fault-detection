@@ -1,0 +1,300 @@
+{
+  "date": "2026-10-17T21:14:45",
+  "commit": "32b0a98",
+  "deployed": "E026_s43",
+  "selected_from": "E026",
+  "seed_runs": [
+    "E026",
+    "E026_s43",
+    "E026_s44"
+  ],
+  "results": {
+    "Trivial: loudness only": {
+      "test": {
+        "all": {
+          "TPR@FPR5": 0.3369,
+          "ROC_AUC": 0.374,
+          "pAUC_0.1": 0.6517
+        },
+        "pump": {
+          "TPR@FPR5": 0.4902,
+          "ROC_AUC": 0.7068,
+          "pAUC_0.1": 0.7281
+        },
+        "fan": {
+          "TPR@FPR5": 0.2936,
+          "ROC_AUC": 0.2936,
+          "pAUC_0.1": 0.6282
+        },
+        "macro": {
+          "TPR@FPR5": 0.3919,
+          "ROC_AUC": 0.5002,
+          "pAUC_0.1": 0.6782
+        }
+      },
+      "val": {
+        "all": {
+          "TPR@FPR5": 0.5781,
+          "ROC_AUC": 0.7964,
+          "pAUC_0.1": 0.7501
+        },
+        "pump": {
+          "TPR@FPR5": 0.2,
+          "ROC_AUC": 0.4501,
+          "pAUC_0.1": 0.5706
+        },
+        "fan": {
+          "TPR@FPR5": 0.75,
+          "ROC_AUC": 0.9437,
+          "pAUC_0.1": 0.8701
+        },
+        "macro": {
+          "TPR@FPR5": 0.475,
+          "ROC_AUC": 0.6969,
+          "pAUC_0.1": 0.7204
+        }
+      },
+      "ci95_macro_TPR@FPR5": [
+        0.33735266959969584,
+        0.44168160338927814
+      ],
+      "operating_points": {
+        "pump": {
+          "threshold": 0.48502370715141296,
+          "TP": 31,
+          "FN": 71,
+          "FP": 0,
+          "TN": 1036,
+          "test_TPR_at_val_threshold": 0.3039,
+          "test_FPR_at_val_threshold": 0.0
+        },
+        "fan": {
+          "threshold": 0.21526984870433807,
+          "TP": 106,
+          "FN": 255,
+          "FP": 711,
+          "TN": 304,
+          "test_TPR_at_val_threshold": 0.2936,
+          "test_FPR_at_val_threshold": 0.7005
+        }
+      }
+    },
+    "Classical baseline (SVM-RBF)": {
+      "test": {
+        "all": {
+          "TPR@FPR5": 0.108,
+          "ROC_AUC": 0.7318,
+          "pAUC_0.1": 0.5233
+        },
+        "pump": {
+          "TPR@FPR5": 0.1569,
+          "ROC_AUC": 0.7036,
+          "pAUC_0.1": 0.5471
+        },
+        "fan": {
+          "TPR@FPR5": 0.3296,
+          "ROC_AUC": 0.8565,
+          "pAUC_0.1": 0.6545
+        },
+        "macro": {
+          "TPR@FPR5": 0.2433,
+          "ROC_AUC": 0.7801,
+          "pAUC_0.1": 0.6008
+        }
+      },
+      "val": {
+        "all": {
+          "TPR@FPR5": 0.0469,
+          "ROC_AUC": 0.7544,
+          "pAUC_0.1": 0.5018
+        },
+        "pump": {
+          "TPR@FPR5": 0.17,
+          "ROC_AUC": 0.5267,
+          "pAUC_0.1": 0.553
+        },
+        "fan": {
+          "TPR@FPR5": 0.8851,
+          "ROC_AUC": 0.9687,
+          "pAUC_0.1": 0.8742
+        },
+        "macro": {
+          "TPR@FPR5": 0.5275,
+          "ROC_AUC": 0.7477,
+          "pAUC_0.1": 0.7136
+        }
+      },
+      "ci95_macro_TPR@FPR5": [
+        0.1832440524686329,
+        0.33136711748411274
+      ],
+      "operating_points": {
+        "pump": {
+          "threshold": 1.687287747448952,
+          "TP": 30,
+          "FN": 72,
+          "FP": 105,
+          "TN": 931,
+          "test_TPR_at_val_threshold": 0.2941,
+          "test_FPR_at_val_threshold": 0.1014
+        },
+        "fan": {
+          "threshold": -0.9867477430700689,
+          "TP": 334,
+          "FN": 27,
+          "FP": 519,
+          "TN": 496,
+          "test_TPR_at_val_threshold": 0.9252,
+          "test_FPR_at_val_threshold": 0.5113
+        }
+      }
+    },
+    "Initial ANN (E001)": {
+      "test": {
+        "all": {
+          "TPR@FPR5": 0.3413,
+          "ROC_AUC": 0.7829,
+          "pAUC_0.1": 0.6314
+        },
+        "pump": {
+          "TPR@FPR5": 0.4118,
+          "ROC_AUC": 0.8748,
+          "pAUC_0.1": 0.6833
+        },
+        "fan": {
+          "TPR@FPR5": 0.3158,
+          "ROC_AUC": 0.7015,
+          "pAUC_0.1": 0.608
+        },
+        "macro": {
+          "TPR@FPR5": 0.3638,
+          "ROC_AUC": 0.7882,
+          "pAUC_0.1": 0.6457
+        }
+      },
+      "val": {
+        "all": {
+          "TPR@FPR5": 0.0737,
+          "ROC_AUC": 0.4978,
+          "pAUC_0.1": 0.5081
+        },
+        "pump": {
+          "TPR@FPR5": 0.17,
+          "ROC_AUC": 0.5011,
+          "pAUC_0.1": 0.5619
+        },
+        "fan": {
+          "TPR@FPR5": 0.3851,
+          "ROC_AUC": 0.652,
+          "pAUC_0.1": 0.6706
+        },
+        "macro": {
+          "TPR@FPR5": 0.2776,
+          "ROC_AUC": 0.5766,
+          "pAUC_0.1": 0.6162
+        }
+      },
+      "ci95_macro_TPR@FPR5": [
+        0.3056684862310575,
+        0.426008907718212
+      ],
+      "operating_points": {
+        "pump": {
+          "threshold": 0.9878528118133545,
+          "TP": 25,
+          "FN": 77,
+          "FP": 8,
+          "TN": 1028,
+          "test_TPR_at_val_threshold": 0.2451,
+          "test_FPR_at_val_threshold": 0.0077
+        },
+        "fan": {
+          "threshold": 0.7781439423561096,
+          "TP": 329,
+          "FN": 32,
+          "FP": 837,
+          "TN": 178,
+          "test_TPR_at_val_threshold": 0.9114,
+          "test_FPR_at_val_threshold": 0.8246
+        }
+      }
+    },
+    "Final ANN (E026_s43, deployed)": {
+      "test": {
+        "all": {
+          "TPR@FPR5": 0.0022,
+          "ROC_AUC": 0.4435,
+          "pAUC_0.1": 0.4758
+        },
+        "pump": {
+          "TPR@FPR5": 0.0,
+          "ROC_AUC": 0.4432,
+          "pAUC_0.1": 0.4737
+        },
+        "fan": {
+          "TPR@FPR5": 0.0637,
+          "ROC_AUC": 0.4789,
+          "pAUC_0.1": 0.5078
+        },
+        "macro": {
+          "TPR@FPR5": 0.0319,
+          "ROC_AUC": 0.461,
+          "pAUC_0.1": 0.4908
+        }
+      },
+      "val": {
+        "all": {
+          "TPR@FPR5": 0.0223,
+          "ROC_AUC": 0.6902,
+          "pAUC_0.1": 0.489
+        },
+        "pump": {
+          "TPR@FPR5": 0.03,
+          "ROC_AUC": 0.3022,
+          "pAUC_0.1": 0.4881
+        },
+        "fan": {
+          "TPR@FPR5": 0.9914,
+          "ROC_AUC": 0.9969,
+          "pAUC_0.1": 0.9847
+        },
+        "macro": {
+          "TPR@FPR5": 0.5107,
+          "ROC_AUC": 0.6496,
+          "pAUC_0.1": 0.7364
+        }
+      },
+      "ci95_macro_TPR@FPR5": [
+        0.019390581717451522,
+        0.045706371191135735
+      ],
+      "operating_points": {
+        "pump": {
+          "threshold": 0.9904035329818726,
+          "TP": 4,
+          "FN": 98,
+          "FP": 250,
+          "TN": 786,
+          "test_TPR_at_val_threshold": 0.0392,
+          "test_FPR_at_val_threshold": 0.2413
+        },
+        "fan": {
+          "threshold": 0.8150853514671326,
+          "TP": 350,
+          "FN": 11,
+          "FP": 1014,
+          "TN": 1,
+          "test_TPR_at_val_threshold": 0.9695,
+          "test_FPR_at_val_threshold": 0.999
+        }
+      }
+    }
+  },
+  "latency_ms": {
+    "logmel_feature": 6.587100000160717,
+    "cnn_cpu": 13.654749999886917,
+    "cnn_gpu": 11.435699999992721,
+    "mfcc_extra": 0.4563500001495413,
+    "baseline_model": 0.27575000012802775
+  }
+}

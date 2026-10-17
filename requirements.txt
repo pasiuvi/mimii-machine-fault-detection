@@ -26,3 +26,10 @@ torchinfo>=1.8
 # captum                  -> Q5 explainability (Grad-CAM, Integrated Gradients)
 # transformers            -> Q6 CLAP zero-shot model
 # fastapi, uvicorn, gradio -> Q4 web application
+
+# --- Stage 4: web application (Question 4) ---
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+pytest>=8.0
+httpx>=0.27

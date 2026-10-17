@@ -36,3 +36,6 @@ Thumbs.db
 # Q3: keep the small per-run logs (history.csv, summary.json)
 !experiments/runs/
 !experiments/archive/**/runs/
+
+# Q4: prediction audit log (local only)
+logs/

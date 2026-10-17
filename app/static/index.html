@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AcoustiGuard – Acoustic Fault Screening</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%2314b8a6'/><path d='M6 16h4l2-6 4 12 3-9 2 3h5' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15"/><path d="M6 16h4l2-6 4 12 3-9 2 3h5"/></svg>
+      <div>
+        <h1>AcoustiGuard</h1>
+        <p>Acoustic fault screening for industrial pumps and fans</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="pill" id="model-pill">Loading model…</span>
+      <span class="pill status" id="status-pill"><i></i>Connecting</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ================= INPUT ================= -->
+    <section class="card input-card" aria-labelledby="input-title">
+      <h2 id="input-title">New analysis</h2>
+      <p class="muted">Upload a 10-second recording of one machine. The trained network analyses it as soon as you press <b>Analyse</b>.</p>
+
+      <div class="step"><span class="step-no">1</span>Machine type</div>
+      <div class="segmented" role="radiogroup" aria-label="Machine type">
+        <button class="seg active" data-type="pump" role="radio" aria-checked="true">
+          <svg viewBox="0 0 24 24"><circle cx="10" cy="13" r="6"/><path d="M10 7V3h8v4M16 13h5M10 13l3-3"/></svg>Pump
+        </button>
+        <button class="seg" data-type="fan" role="radio" aria-checked="false">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10c0-5 4-7 6-5s-1 6-6 5zM14 12c5 0 7 4 5 6s-6-1-5-6zM12 14c0 5-4 7-6 5s1-6 6-5zM10 12c-5 0-7-4-5-6s6 1 5 6z"/></svg>Fan
+        </button>
+      </div>
+
+      <div class="step"><span class="step-no">2</span>Recording</div>
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept=".wav,.flac,audio/wav,audio/flac" hidden>
+        <svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <span class="dz-main">Drop a WAV or FLAC file here</span>
+        <span class="dz-sub">or click to browse · max 25 MB · 1–30 s (10 s recommended)</span>
+      </label>
+      <div class="file-chip hidden" id="file-chip">
+        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <div><b id="file-name"></b><span id="file-size"></span></div>
+        <button class="icon-btn" id="file-clear" aria-label="Remove file">✕</button>
+      </div>
+      <audio id="player" controls class="hidden"></audio>
+
+      <button class="primary" id="analyse" disabled>
+        <span class="btn-label">Analyse recording</span><span class="spinner" aria-hidden="true"></span>
+      </button>
+      <div class="error hidden" id="error" role="alert"></div>
+
+      <div class="divider"><span>or try a demo clip from the test machine</span></div>
+      <ul class="examples" id="examples"><li class="muted">No example clips found on this computer.</li></ul>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section class="card result-card" aria-live="polite">
+      <div class="empty" id="empty">
+        <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M2 30h18l6-18 10 36 8-26 6 14 6-6h12l6-12 8 24 6-12h30"/></svg>
+        <h2>No recording analysed yet</h2>
+        <p class="muted">Choose the machine type, add a recording and press <b>Analyse</b>. The result, the input checks and the spectrogram will appear here.</p>
+      </div>
+
+      <div class="result hidden" id="result">
+        <div class="verdict" id="verdict">
+          <div class="verdict-icon" id="verdict-icon"></div>
+          <div>
+            <div class="verdict-title" id="verdict-title"></div>
+            <div class="verdict-action" id="verdict-action"></div>
+          </div>
+          <div class="truth hidden" id="truth"></div>
+        </div>
+
+        <div class="metrics">
+          <div class="gauge-wrap">
+            <svg viewBox="0 0 200 120" class="gauge" aria-label="Fault score gauge">
+              <path class="g-track" d="M20 100 A80 80 0 0 1 180 100"/>
+              <path class="g-fill" id="g-fill" d="M20 100 A80 80 0 0 1 180 100"/>
+              <line class="g-thr" id="g-thr" x1="100" y1="100" x2="100" y2="14"/>
+              <text x="100" y="86" class="g-value" id="g-value">–</text>
+              <text x="100" y="106" class="g-label">fault score</text>
+              <text x="20" y="116" class="g-tick">0</text><text x="180" y="116" class="g-tick">1</text>
+            </svg>
+          </div>
+          <div class="tiles">
+            <div class="tile"><span>Alarm threshold</span><b id="m-thr">–</b><small id="m-margin"></small></div>
+            <div class="tile"><span>False-alarm rate at this score<sup>*</sup></span><b id="m-far">–</b><small>normal clips of the validation machine scoring this high</small></div>
+            <div class="tile"><span>Seed agreement</span><b id="m-votes">–</b><small id="m-spread"></small></div>
+            <div class="tile"><span>Input vs. training data</span><b id="m-ood">–</b><small id="m-ood-sub"></small></div>
+          </div>
+        </div>
+
+        <details class="explain" open>
+          <summary>What does the score mean?</summary>
+          <p>The <b>fault score</b> (0–1) is the network's output. Higher means the recording sounds more like the faulty recordings it was trained on. It is a <b>ranking score, not a calibrated probability</b>: a score of 0.97 does <u>not</u> mean a 97 % chance of a fault.</p>
+          <p>The <b>alarm threshold</b> was set on the validation machine so that about 5 % of its normal recordings raise an alarm. <sup>*</sup>The false-alarm rate shown is measured on that machine. On a different machine it can be very different – on the test machine it was up to 99.9 % for fans.</p>
+          <p><b>Seed agreement</b> shows how many of the three independently trained copies of the final design would raise an alarm. Disagreement means the result is uncertain.</p>
+        </details>
+
+        <h3>Input and data checks</h3>
+        <ul class="checks" id="checks"></ul>
+
+        <h3>Log-mel spectrogram <span class="muted small">(what the network sees)</span></h3>
+        <img id="spec" class="spec" alt="Log-mel spectrogram of the analysed recording">
+
+        <div class="footer-meta" id="meta"></div>
+      </div>
+    </section>
+
+    <!-- ================= LIMITATIONS ================= -->
+    <section class="card limits-card">
+      <h2><svg viewBox="0 0 24 24" class="warn-ico"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg>Model limitations – please read</h2>
+      <div class="limits-grid">
+        <ul>
+          <li><b>Not proven on new machines.</b> On the held-out test machine the deployed model caught <b id="lim-test">–</b> of faults at a 5 % false-alarm budget, no better than chance. A simple loudness rule did better (<b id="lim-loud">–</b>).</li>
+          <li><b>Thresholds must be calibrated per machine.</b> Thresholds come from one validation machine (id_04). On another machine almost every clip may raise an alarm.</li>
+          <li><b>Narrow training data.</b> Trained on 2 pumps and 2 fans from the MIMII dataset, 6 dB signal-to-noise ratio, microphone channel 0, 10-s clips.</li>
+        </ul>
+        <ul>
+          <li><b>Pumps and fans only.</b> Other machines (valves, slide rails, motors) are outside its knowledge, even if the input checks pass.</li>
+          <li><b>Sensitive to recording conditions.</b> Microphone position, gain and background noise change the sound; the checks above flag only large differences.</li>
+          <li><b>A screening aid, not a decision.</b> Use it to prioritise inspections. Never skip a scheduled inspection because of a "no alarm" result.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card history-card">
+      <h2>Session history</h2>
+      <table class="history">
+        <thead><tr><th>Time</th><th>File</th><th>Type</th><th>Score</th><th>Threshold</th><th>Result</th><th>Input</th><th>Latency</th></tr></thead>
+        <tbody id="history"><tr class="muted"><td colspan="8">Predictions from this session will appear here.</td></tr></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="page-foot">AcoustiGuard · MSc Data Science coursework (COMScDS251P-001) · FaultCNN (EfficientNet-B0, MIMII pump/fan) · predictions are computed live by the trained model</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+# Q4 – web application test results
+
+27 of 27 cases behaved as expected.
+
+| id              | category            | description                                                                     |   http_status | verdict    |   score | ood_status          | flagged_checks                                                                                    | as_expected   |
+|:----------------|:--------------------|:--------------------------------------------------------------------------------|--------------:|:-----------|--------:|:--------------------|:--------------------------------------------------------------------------------------------------|:--------------|
+| N-pump-normal   | normal              | Real normal pump clip, validation machine id_04 (8-channel, 16 kHz, 10 s)       |           200 | alarm      |  0.994  | unusual             | Channels (info); Spectrum shape vs. development data (warn)                                       | True          |
+| N-pump-abnormal | normal              | Real abnormal pump clip, validation machine id_04 (8-channel, 16 kHz, 10 s)     |           200 | no_alarm   |  0.9792 | in_distribution     | Channels (info)                                                                                   | True          |
+| N-fan-normal    | normal              | Real normal fan clip, validation machine id_04 (8-channel, 16 kHz, 10 s)        |           200 | no_alarm   |  0.2295 | in_distribution     | Channels (info)                                                                                   | True          |
+| N-fan-abnormal  | normal              | Real abnormal fan clip, validation machine id_04 (8-channel, 16 kHz, 10 s)      |           200 | alarm      |  0.9782 | in_distribution     | Channels (info)                                                                                   | True          |
+| N-flac          | normal              | Same pump clip saved as FLAC (score must match the WAV)                         |           200 | alarm      |  0.994  | unusual             | Spectrum shape vs. development data (warn)                                                        | True          |
+| N-44k-stereo    | normal              | Same pump clip at 44.1 kHz stereo (resampled by the app)                        |           200 | alarm      |  0.991  | unusual             | Channels (info); Sample rate (info); Spectrum shape vs. development data (warn)                   | True          |
+| N-short-3s      | normal              | First 3 s of the pump clip (shorter than the 10-s training clips)               |           200 | alarm      |  0.9914 | unusual             | Duration (warn); Spectrum shape vs. development data (warn)                                       | True          |
+| I-empty         | invalid             | Empty file                                                                      |           400 | rejected   |         |                     |                                                                                                   | True          |
+| I-text-as-wav   | invalid             | Text file renamed to .wav                                                       |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-mp3-ext       | invalid             | Unsupported extension (.mp3)                                                    |           415 | rejected   |         |                     |                                                                                                   | True          |
+| I-pdf           | invalid             | PDF document                                                                    |           415 | rejected   |         |                     |                                                                                                   | True          |
+| I-truncated     | invalid             | WAV cut after 30 bytes (corrupted header)                                       |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-too-short     | invalid             | 0.5-second recording                                                            |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-too-long      | invalid             | 40-second recording                                                             |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-silence       | invalid             | 10 s of digital silence                                                         |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-machine-type  | invalid             | Valid audio but machine type 'valve'                                            |           422 | rejected   |         |                     |                                                                                                   | True          |
+| I-too-large     | invalid             | 26 MB upload (over the 25 MB limit)                                             |           413 | rejected   |         |                     |                                                                                                   | True          |
+| I-no-file       | invalid             | Request without a file                                                          |           422 | rejected   |         |                     |                                                                                                   | True          |
+| O-white-noise   | out-of-distribution | White noise (flat spectrum, no machine)                                         |           200 | no_alarm   |  0.9551 | unusual             | Loudness vs. development data (warn)                                                              | True          |
+| O-tone-1k       | out-of-distribution | Pure 1 kHz sine tone                                                            |           200 | unreliable |  0.9528 | out_of_distribution | Loudness vs. development data (fail); Spectrum shape vs. development data (fail)                  | True          |
+| O-music-chord   | out-of-distribution | Musical chord (A major, with harmonics)                                         |           200 | unreliable |  0.9891 | out_of_distribution | Loudness vs. development data (fail); Spectrum shape vs. development data (fail)                  | True          |
+| O-too-loud      | out-of-distribution | Real pump clip amplified 92x to about -3 dBFS (heavy clipping)                  |           200 | unreliable |  0.9601 | out_of_distribution | Clipping (warn); Loudness vs. development data (fail); Spectrum shape vs. development data (warn) | True          |
+| O-too-quiet     | out-of-distribution | Real pump clip turned down to about -65 dBFS (very quiet, still audible)        |           200 | unreliable |  0.9814 | out_of_distribution | Loudness vs. development data (fail); Spectrum shape vs. development data (warn)                  | True          |
+| I-near-silent   | invalid             | Real pump clip turned down to about -95 dBFS (below the -80 dBFS silence limit) |           422 | rejected   |         |                     |                                                                                                   | True          |
+| O-wrong-type    | out-of-distribution | Real FAN clip submitted as a PUMP                                               |           200 | no_alarm   |  0.2474 | in_distribution     | none                                                                                              | True          |
+| N-repeat        | normal              | Same pump clip sent twice (deterministic?)                                      |           200 | -          |  0.994  |                     |                                                                                                   | True          |
+| N-flac-equal    | normal              | FLAC score equals WAV score                                                     |           200 | -          |  0.994  |                     |                                                                                                   | True          |
+
+
+Rejected inputs and their messages:
+
+| id             |   http_status | error_code       | message                                                                                    |
+|:---------------|--------------:|:-----------------|:-------------------------------------------------------------------------------------------|
+| I-empty        |           400 | empty_file       | The uploaded file is empty.                                                                |
+| I-text-as-wav  |           422 | unreadable_audio | The file could not be decoded as audio. It may be corrupted or not really a WAV/FLAC file. |
+| I-mp3-ext      |           415 | unsupported_type | File type '.mp3' is not supported. Please upload a WAV or FLAC recording.                  |
+| I-pdf          |           415 | unsupported_type | File type '.pdf' is not supported. Please upload a WAV or FLAC recording.                  |
+| I-truncated    |           422 | unreadable_audio | The file could not be decoded as audio. It may be corrupted or not really a WAV/FLAC file. |
+| I-too-short    |           422 | too_short        | The recording is 0.50 s long; at least 1 s is needed.                                      |
+| I-too-long     |           422 | too_long         | The recording is 40.0 s long; the maximum is 30 s. Please upload a 10-second clip.         |
+| I-silence      |           422 | silent           | The recording is silent (level -240 dBFS). Check the microphone.                           |
+| I-machine-type |           422 | bad_machine_type | Machine type must be 'pump' or 'fan'.                                                      |
+| I-too-large    |           413 | file_too_large   | File is 26.2 MB; the limit is 25 MB.                                                       |
+| I-no-file      |           422 | validation_error | [{'type': 'missing', 'loc': ['body', 'file'], 'msg': 'Field required', 'input': None}]     |
+| I-near-silent  |           422 | silent           | The recording is silent (level -92 dBFS). Check the microphone.                            |
+
+
+Documented known limitations (reported, not hidden):
+
+- **O-wrong-type**: Known limitation: pump and fan recordings have similar level and spectrum shape, so the simple checks cannot detect a wrong machine type; the user must choose it correctly. (result: in distribution)

@@ -23,6 +23,8 @@ Groups
   ablation : remove one ingredient of the reference at a time       (which parts matter)
   domain   : one idea aimed directly at the machine-to-machine shift
   failed   : designed experiments expected to fail, with a reason   (Q3b "did not work")
+  combine  : ROUND 2 confirmation - combine the one-factor winners  (added after Round 1,
+             decision record reports/Q3_round2_combination.md, written BEFORE these runs)
   final    : selected config, re-run with 2 extra seeds             (seed variance)
 """
 from __future__ import annotations
@@ -142,7 +144,22 @@ EXPERIMENTS = [
     dict(id="E023", group="failed", what="Unweighted loss (pos_weight = 1), else = E005",
          hypothesis="Expected to hurt: rare faults get less weight, low-FPR ranking suffers",
          cfg=_ref(pos_weight=1.0)),
+    # ---------------- ROUND 2: combine the winners of the one-factor studies ----------------
+    # Round 1 winners (stable val macro TPR@FPR5): SGD-Nesterov 1e-2 (E015, 0.435), AdamW LR 1e-3 (E008, 0.362),
+    # last 3 blocks (E012, 0.358), batch 16 (E009, 0.339), no EMA (E017, 0.288 vs E005 0.234).
+    dict(id="E024", group="combine", what="SGD-Nesterov 1e-2 + fine-tune last 3 blocks (E015 + E012)",
+         hypothesis="Best optimiser + best depth: keeping generic low-level filters frozen should help SGD transfer too",
+         cfg=_ref(optimizer="sgd", lr=1e-2, weight_decay=1e-4, trainable_stages=3)),
+    dict(id="E025", group="combine", what="SGD-Nesterov 1e-2 + batch size 16 (E015 + E009)",
+         hypothesis="More, noisier updates helped AdamW; may help SGD - or overshoot (LR/batch noise doubles)",
+         cfg=_ref(optimizer="sgd", lr=1e-2, weight_decay=1e-4, batch_size=16)),
+    dict(id="E026", group="combine", what="SGD-Nesterov 1e-2 without EMA (E015 + E017)",
+         hypothesis="EMA lowered the level at LR 1e-4 (E017); checks whether it also holds SGD back",
+         cfg=_ref(optimizer="sgd", lr=1e-2, weight_decay=1e-4, ema_decay=0.0)),
+    dict(id="E027", group="combine", what="AdamW LR 1e-3 + fine-tune last 3 blocks (E008 + E012)",
+         hypothesis="Best Adam-type setting + best depth; tests whether the depth gain also holds at a larger LR",
+         cfg=_ref(lr=1e-3, trainable_stages=3)),
 ]
 
 PLAN = {e["id"]: e for e in EXPERIMENTS}
-GROUPS = ["initial", "improve", "lr", "bs", "depth", "optim", "ablation", "domain", "failed"]
+GROUPS = ["initial", "improve", "lr", "bs", "depth", "optim", "ablation", "domain", "failed", "combine"]

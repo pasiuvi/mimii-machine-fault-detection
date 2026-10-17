@@ -10,6 +10,7 @@ Outputs
   reports/figures/q3_depth_study.png           fine-tuning depth (Q3b)
   reports/figures/q3_optimizer_study.png       AdamW vs Adam(L2) vs SGD-momentum (Q3b)
   reports/figures/q3_ema_stability.png         with vs without weight EMA (epoch-to-epoch noise)
+  reports/figures/q3_combination.png           Round 2: winners combined vs their parents
   reports/figures/q3_all_runs.png              every run vs the reference design
   reports/figures/q3_seed_variance.png         final config over 3 seeds
   reports/figures/q3_round0_vs_round1.png      archived Round 0 vs Round 1 (if the archive exists)
@@ -38,7 +39,7 @@ FINAL_JSON = config.ROOT / "experiments" / "final_config.json"
 ARCHIVE = config.ROOT / "experiments" / "archive"
 M = "val_macro_TPR@FPR5"
 GROUP_COLORS = {"initial": "#7f7f7f", "improve": "#1f77b4", "lr": "#ff7f0e", "bs": "#2ca02c", "depth": "#9467bd",
-                "optim": "#8c564b", "ablation": "#e377c2", "domain": "#bcbd22", "failed": "#d62728",
+                "optim": "#8c564b", "ablation": "#e377c2", "domain": "#bcbd22", "failed": "#d62728", "combine": "#393b79",
                 "final": "#17becf"}
 
 
@@ -183,6 +184,11 @@ def main() -> None:
            "Optimiser comparison", FIG / "q3_optimizer_study.png", extra_panel="grad_norm")
     curves(["E005", "E017"], {"E005": "with EMA", "E017": "no EMA"},
            "Weight EMA: effect on epoch-to-epoch stability", FIG / "q3_ema_stability.png")
+
+    bar_study(df, ["E005", "E008", "E012", "E009", "E015", "E024", "E025", "E026", "E027"],
+              {"E005": "ref", "E008": "lr1e-3", "E012": "3 blk", "E009": "bs16", "E015": "SGD",
+               "E024": "SGD+3blk", "E025": "SGD+bs16", "E026": "SGD-EMA", "E027": "lr1e-3+3blk"},
+              "Round 2: combining the one-factor winners", FIG / "q3_combination.png", "run")
 
     order = [e["id"] for e in EXPERIMENTS if e["id"] in set(df.exp_id)] + \
             sorted(i for i in df.exp_id if i not in {e["id"] for e in EXPERIMENTS})

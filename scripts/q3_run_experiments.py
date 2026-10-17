@@ -7,6 +7,7 @@ Examples (run from the project folder, .venv active):
     python -m scripts.q3_run_experiments --group initial improve
     python -m scripts.q3_run_experiments --group lr bs depth
     python -m scripts.q3_run_experiments --group optim ablation domain failed
+    python -m scripts.q3_run_experiments --group combine          # Round 2 confirmation
     python -m scripts.q3_run_experiments --ids E006             # one experiment
     python -m scripts.q3_run_experiments --all                  # everything still missing
     python -m scripts.q3_run_experiments --final                # pick best config + 2 extra seeds

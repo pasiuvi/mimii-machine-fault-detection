@@ -1,0 +1,39 @@
+{
+  "exp_id": "E003",
+  "group": "improve",
+  "what": "Reference design (Q2): full fine-tuning + crop + gain + SpecAugment, AdamW 3e-4, cosine",
+  "hypothesis": "Augmentation reduces over-fitting and improves validation TPR@FPR5",
+  "cfg": {
+    "pretrained": true,
+    "trainable_stages": 9,
+    "optimizer": "adamw",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "momentum": 0.9,
+    "batch_size": 32,
+    "max_epochs": 25,
+    "patience": 6,
+    "scheduler": "cosine",
+    "augment": true,
+    "aug": {
+      "crop": true,
+      "gain": true,
+      "specaug": true,
+      "freq_shift": false
+    },
+    "pos_weight": "auto",
+    "seed": 42
+  },
+  "epochs_run": 9,
+  "best_epoch": 3,
+  "val_TPR@FPR5": 0.2879,
+  "val_ROC_AUC": 0.5983,
+  "val_pAUC_0.1": 0.6231,
+  "val_TPR@FPR5_pump": 0.05,
+  "val_TPR@FPR5_fan": 0.3764,
+  "train_time_min": 3.13,
+  "device": "cuda",
+  "trainable_params": 4171325,
+  "diverged": false,
+  "git_commit": "861dbae"
+}

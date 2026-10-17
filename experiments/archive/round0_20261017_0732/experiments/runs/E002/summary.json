@@ -1,0 +1,39 @@
+{
+  "exp_id": "E002",
+  "group": "improve",
+  "what": "Unfreeze the whole backbone (full fine-tuning), AdamW 3e-4 + cosine, still no augmentation",
+  "hypothesis": "More capacity fixes under-fitting but will over-fit the 4 training machines without augmentation",
+  "cfg": {
+    "pretrained": true,
+    "trainable_stages": 9,
+    "optimizer": "adamw",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "momentum": 0.9,
+    "batch_size": 32,
+    "max_epochs": 25,
+    "patience": 6,
+    "scheduler": "cosine",
+    "augment": false,
+    "aug": {
+      "crop": true,
+      "gain": true,
+      "specaug": true,
+      "freq_shift": false
+    },
+    "pos_weight": "auto",
+    "seed": 42
+  },
+  "epochs_run": 11,
+  "best_epoch": 5,
+  "val_TPR@FPR5": 0.3683,
+  "val_ROC_AUC": 0.6284,
+  "val_pAUC_0.1": 0.6578,
+  "val_TPR@FPR5_pump": 0.24,
+  "val_TPR@FPR5_fan": 0.4195,
+  "train_time_min": 4.08,
+  "device": "cuda",
+  "trainable_params": 4171325,
+  "diverged": false,
+  "git_commit": "861dbae"
+}

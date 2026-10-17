@@ -1,0 +1,39 @@
+{
+  "exp_id": "E001",
+  "group": "initial",
+  "what": "Initial ANN: frozen pretrained backbone (head only), Adam 1e-3, no augmentation, constant LR",
+  "hypothesis": "A simple transfer-learning starting point; expected to under-fit because only 164k head weights learn",
+  "cfg": {
+    "pretrained": true,
+    "trainable_stages": 0,
+    "optimizer": "adam",
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "momentum": 0.9,
+    "batch_size": 32,
+    "max_epochs": 15,
+    "patience": 6,
+    "scheduler": "none",
+    "augment": false,
+    "aug": {
+      "crop": true,
+      "gain": true,
+      "specaug": true,
+      "freq_shift": false
+    },
+    "pos_weight": "auto",
+    "seed": 42
+  },
+  "epochs_run": 7,
+  "best_epoch": 1,
+  "val_TPR@FPR5": 0.0737,
+  "val_ROC_AUC": 0.4978,
+  "val_pAUC_0.1": 0.5081,
+  "val_TPR@FPR5_pump": 0.17,
+  "val_TPR@FPR5_fan": 0.3851,
+  "train_time_min": 1.31,
+  "device": "cuda",
+  "trainable_params": 164353,
+  "diverged": false,
+  "git_commit": "861dbae"
+}

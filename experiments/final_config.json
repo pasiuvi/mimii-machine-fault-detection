@@ -1,0 +1,58 @@
+{
+  "selected_from": "E026",
+  "rule": "max STABLE validation macro TPR@FPR5 (best epoch +-1), tie-break validation macro pAUC(0.1)",
+  "n_candidates": 26,
+  "val_macro_TPR@FPR5": 0.4899,
+  "val_stable_macro_TPR@FPR5": 0.47576666666666667,
+  "top5": [
+    {
+      "id": "E026",
+      "stable": 0.4758,
+      "best": 0.4899
+    },
+    {
+      "id": "E015",
+      "stable": 0.4351,
+      "best": 0.4477
+    },
+    {
+      "id": "E008",
+      "stable": 0.3619,
+      "best": 0.39
+    },
+    {
+      "id": "E012",
+      "stable": 0.3581,
+      "best": 0.36
+    },
+    {
+      "id": "E024",
+      "stable": 0.357,
+      "best": 0.4061
+    }
+  ],
+  "cfg": {
+    "pretrained": true,
+    "trainable_stages": 9,
+    "optimizer": "sgd",
+    "lr": 0.01,
+    "weight_decay": 0.0001,
+    "momentum": 0.9,
+    "batch_size": 32,
+    "max_epochs": 25,
+    "patience": 7,
+    "scheduler": "cosine",
+    "augment": true,
+    "aug": {
+      "crop": true,
+      "gain": true,
+      "specaug": true,
+      "freq_shift": false
+    },
+    "mixup_alpha": 0.4,
+    "ema_decay": 0.0,
+    "clip_norm": false,
+    "pos_weight": "auto",
+    "seed": 42
+  }
+}

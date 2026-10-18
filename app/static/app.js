@@ -1,6 +1,6 @@
 // AcoustiGuard frontend – plain JavaScript, no build step.
 const $ = (id) => document.getElementById(id);
-const state = { type: "pump", file: null, busy: false };
+const state = { type: "pump", file: null, busy: false, explain: null, specSrc: "", overlaySrc: "" };
 const ICONS = {
   no_alarm: '<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',
   alarm: '<svg viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg>',
@@ -97,7 +97,11 @@ $("analyse").addEventListener("click", async () => {
   const fd = new FormData();
   fd.append("file", state.file);
   fd.append("machine_type", state.type);
-  await request("/api/predict", { method: "POST", body: fd }, state.file.name);
+  const file = state.file, type = state.type;
+  await request("/api/predict", { method: "POST", body: fd }, state.file.name, () => {
+    const f2 = new FormData(); f2.append("file", file); f2.append("machine_type", type);
+    return fetch("/api/explain", { method: "POST", body: f2 });
+  });
 });
 
 async function runExample(btn) {
@@ -105,11 +109,13 @@ async function runExample(btn) {
   $("player").src = `/api/examples/${btn.dataset.ex}/audio`;
   $("player").classList.remove("hidden");
   btn.disabled = true;
-  await request(`/api/examples/${btn.dataset.ex}/predict`, { method: "POST" }, btn.dataset.file);
+  const id = btn.dataset.ex;
+  await request(`/api/examples/${id}/predict`, { method: "POST" }, btn.dataset.file,
+    () => fetch(`/api/examples/${id}/explain`, { method: "POST" }));
   btn.disabled = false;
 }
 
-async function request(url, opts, name) {
+async function request(url, opts, name, explainFn) {
   state.busy = true;
   hideError();
   $("analyse").classList.add("loading");
@@ -122,6 +128,7 @@ async function request(url, opts, name) {
       addHistory({ file: name, machine_type: state.type, verdict: "rejected", reason: body.error || res.status });
       return;
     }
+    state.explain = explainFn || null;
     render(body);
     addHistory(body);
   } catch (e) {
@@ -184,12 +191,87 @@ function render(r) {
   $("checks").innerHTML = r.checks.map((c) => `
     <li class="${c.status}"><span class="dot">${sym[c.status]}</span><div><b>${esc(c.name)}</b><span>${esc(c.detail)}</span></div></li>`).join("");
   $("spec").src = r.spectrogram_png;
+  state.specSrc = r.spectrogram_png;
+  resetExplanation(r);
   $("meta").innerHTML = [
     `File: <b>${esc(r.file)}</b>`, `${r.audio.seconds} s · ${r.audio.original_sample_rate} Hz · ${r.audio.channels} ch`,
     `Latency: ${r.timing_ms.total} ms (features ${r.timing_ms.preprocess} ms, model ${r.timing_ms.model} ms)`,
     `Model: ${r.model.deployed_run} on ${r.model.device}`, `Request ID: ${r.request_id}`,
   ].map((s) => `<span>${s}</span>`).join("");
   $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ---------------- Question 5: explanation ----------------
+function resetExplanation(r) {
+  $("xai-body").classList.add("hidden");
+  $("xai-btn").disabled = !state.explain;
+  $("xai-btn").textContent = "Explain this result";
+  state.lastVerdict = r.verdict;
+}
+
+$("xai-btn").addEventListener("click", async () => {
+  if (!state.explain || state.busy) return;
+  const b = $("xai-btn");
+  b.disabled = true; b.textContent = "Explaining…";
+  try {
+    const res = await state.explain();
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) { showError(body.message || `Explanation failed (${res.status})`, body.error); b.textContent = "Explain this result"; b.disabled = false; return; }
+    renderExplanation(body);
+    b.textContent = "Explain again";
+  } catch (e) {
+    showError("Could not reach the server. Is it still running?");
+    b.textContent = "Explain this result";
+  }
+  b.disabled = false;
+});
+
+document.querySelectorAll(".mini").forEach((m) => m.addEventListener("click", () => {
+  document.querySelectorAll(".mini").forEach((x) => x.classList.toggle("active", x === m));
+  $("xai-img").src = m.dataset.view === "spec" ? state.specSrc : state.overlaySrc;
+}));
+
+function renderExplanation(r) {
+  const e = r.explanation;
+  state.overlaySrc = e.overlay_png;
+  document.querySelectorAll(".mini").forEach((x) => x.classList.toggle("active", x.dataset.view === "overlay"));
+  $("xai-img").src = e.overlay_png;
+  const warn = $("xai-warn");
+  const msgs = [];
+  if (r.verdict === "unreliable") msgs.push("The input is outside what the model knows. The explanation of an unreliable result is not meaningful.");
+  else if (r.ood_status === "unusual") msgs.push("The input is unusual compared with the training data – read the explanation with extra caution.");
+  warn.innerHTML = msgs.map(esc).join("<br>");
+  warn.classList.toggle("hidden", !msgs.length);
+
+  $("xai-lines").innerHTML = e.summary.lines.map((l) => `<li>${esc(l)}</li>`).join("");
+  const q1 = { pump: [[431, 910]], fan: [[0, 50], [479, 2400]] }[r.machine_type] || [];
+  const inQ1 = (b) => q1.some(([lo, hi]) => b.lo < hi && b.hi > lo);
+  const maxShare = Math.max(...e.bands.map((b) => b.share), 0.01);
+  $("xai-bands").innerHTML = e.bands.map((b) => `
+    <li class="${inQ1(b) ? "q1" : ""}"><span>${esc(b.band)}</span>
+      <span class="bar"><i style="width:${(100 * b.share / maxShare).toFixed(0)}%"></i></span>
+      <span>${(100 * b.share).toFixed(0)} %</span></li>`).join("") +
+    `<li><span class="note">● = band where ${r.machine_type} faults showed up in the training data (Question 1)</span></li>`;
+
+  const c = e.check;
+  if (!c) {
+    $("xai-check").innerHTML = `<div class="xc-verdict fail">Nothing was highlighted, so there is nothing to check. The network found no fault-like region in this recording.</div>`;
+  } else {
+    const row = (label, ev, sc) => `<div class="xc-row"><span>${label}</span><b>${ev.toFixed(2)}<small> evidence · score ${sc.toFixed(3)}</small></b></div>`;
+    $("xai-check").innerHTML =
+      row("As analysed", c.logit, c.score) +
+      row(`Highlighted ${Math.round(100 * c.hidden_share)} % hidden`, c.logit_top_hidden, c.score_top_hidden) +
+      row(`Random ${Math.round(100 * c.hidden_share)} % hidden (average of 10)`, c.logit_random_hidden, c.score_random_hidden) +
+      `<p class="small muted xc-note">"Evidence" is the network's raw output before it is squeezed into the 0–1 score. Near 0 or 1 the score hardly moves, so the check compares the evidence.</p>` +
+      `<div class="xc-verdict ${c.passed ? "pass" : "fail"}">${c.passed
+        ? `<b>Passed.</b> Hiding the highlighted area lowered the fault evidence by ${c.logit_drop_top.toFixed(2)}, more than hiding random areas (${c.logit_drop_random.toFixed(2)}). The model does depend on this area.`
+        : `<b>Not passed.</b> Hiding the highlighted area lowered the fault evidence by ${c.logit_drop_top.toFixed(2)}, not more than random areas (${c.logit_drop_random.toFixed(2)}). Do not rely on this map for this recording.`}</div>`;
+  }
+  $("xai-meta").innerHTML = [`Method: ${esc(e.method)} on layer ${esc(e.layer)} (${e.grid.join(" × ")} grid)`,
+    `Explanation time: ${e.timing_ms.gradcam} ms + check ${e.timing_ms.check} ms`, `Request ID: ${esc(r.request_id)}`]
+    .map((x) => `<span>${x}</span>`).join("");
+  $("xai-body").classList.remove("hidden");
+  $("xai").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function addHistory(r) {

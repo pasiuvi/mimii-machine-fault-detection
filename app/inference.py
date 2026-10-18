@@ -170,12 +170,14 @@ class FaultDetector:
                 self.models[sid] = self._load(p)
         self.lock = threading.Lock()
         self.ref_profiles = {t: np.array(v["profile_db"], dtype=np.float32) for t, v in self.ref["ranges"].items()}
+        xcfg = ROOT / "app" / "reference" / "q5_xai.json"          # written by scripts/q5_xai_analysis.py
+        self.xai_layer = json.loads(xcfg.read_text()).get("layer", "features.8") if xcfg.exists() else "features.8"
         self.warm_up()
 
     def warm_up(self) -> None:
         """Run one dummy prediction so the first real request is not slowed down by one-off library start-up."""
         rng = np.random.default_rng(0)
-        self.predict(wav_bytes(0.05 * rng.standard_normal(int(EXPECTED_SECONDS * config.SAMPLE_RATE))), "warmup.wav", "pump")
+        self.explain(wav_bytes(0.05 * rng.standard_normal(int(EXPECTED_SECONDS * config.SAMPLE_RATE))), "warmup.wav", "pump")
 
     def _load(self, path: Path) -> FaultCNN:
         ck = torch.load(path, map_location=self.device, weights_only=False)
@@ -215,13 +217,18 @@ class FaultDetector:
         return status, checks, {"level_db": round(lvl, 2), "shape_distance": round(dist, 3)}
 
     # ---------- model ----------
-    @torch.no_grad()
-    def _scores(self, S: np.ndarray, mtype: str) -> dict[str, float]:
+    def model_input(self, S: np.ndarray, mtype: str) -> tuple[torch.Tensor, torch.Tensor]:
+        """Log-mel -> the exact tensor the network sees (train-only normalisation, optional clip_norm)."""
         x = (S - self.mean[:, None]) / self.std[:, None]
         if self.clip_norm:
             x = x - x.mean(axis=1, keepdims=True)
-        xt = torch.from_numpy(x).unsqueeze(0).unsqueeze(0).to(self.device)
+        xt = torch.from_numpy(np.ascontiguousarray(x, dtype=np.float32)).unsqueeze(0).unsqueeze(0).to(self.device)
         mt = torch.tensor([config.MACHINE_TYPE_INDEX[mtype]], device=self.device)
+        return xt, mt
+
+    @torch.no_grad()
+    def _scores(self, S: np.ndarray, mtype: str) -> dict[str, float]:
+        xt, mt = self.model_input(S, mtype)
         out = {}
         with self.lock:
             for name, m in self.models.items():
@@ -235,6 +242,17 @@ class FaultDetector:
 
     # ---------- public ----------
     def predict(self, data: bytes, filename: str, mtype: str) -> dict:
+        return self._predict(data, filename, mtype)[0]
+
+    def explain(self, data: bytes, filename: str, mtype: str) -> dict:
+        """Question 5: prediction + Grad-CAM explanation + live faithfulness check, all at request time."""
+        from app import xai
+        res, S = self._predict(data, filename, mtype)
+        xt, mt = self.model_input(S, mtype)
+        res["explanation"] = xai.explain(self, xt, mt, S, mtype, res["verdict"], layer=self.xai_layer)
+        return res
+
+    def _predict(self, data: bytes, filename: str, mtype: str) -> tuple[dict, np.ndarray]:
         if mtype not in config.MACHINE_TYPE_INDEX:
             raise InputError(422, "bad_machine_type", "Machine type must be 'pump' or 'fan'.")
         t0 = time.perf_counter()
@@ -260,7 +278,7 @@ class FaultDetector:
         else:
             verdict, headline = "no_alarm", "No alarm – keep the planned maintenance schedule"
 
-        return {
+        return ({
             "verdict": verdict, "headline": headline, "machine_type": mtype,
             "score": round(score, 4), "threshold": round(thr, 4), "alarm": bool(alarm),
             "margin": round(score - thr, 4),
@@ -276,14 +294,15 @@ class FaultDetector:
             "timing_ms": {"preprocess": round((t1 - t0) * 1000, 1), "model": round((t2 - t1) * 1000, 1),
                           "total": round((t2 - t0) * 1000, 1)},
             "model": {"deployed_run": self.deployed_id, "device": str(self.device), "n_models": len(scores)},
-        }
+        }, S)
 
     def model_card(self) -> dict:
         return {"deployed_run": self.deployed_id, "thresholds": self.thresholds, "device": str(self.device),
                 "seed_runs": list(self.ref["seed_runs"]), "input_rules": {
                     "formats": sorted(ALLOWED_EXT), "max_mb": MAX_BYTES // (1024 * 1024),
                     "min_seconds": MIN_SECONDS, "max_seconds": MAX_SECONDS, "expected_seconds": EXPECTED_SECONDS},
-                "evaluation": self.ref.get("evaluation", {}), "built": self.ref.get("built")}
+                "evaluation": self.ref.get("evaluation", {}), "built": self.ref.get("built"),
+                "explanation_method": {"name": "Grad-CAM", "layer": self.xai_layer}}
 
 
 def wav_bytes(sig: np.ndarray, sr: int = config.SAMPLE_RATE) -> bytes:

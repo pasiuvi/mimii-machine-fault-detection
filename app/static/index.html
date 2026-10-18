@@ -111,6 +111,44 @@
         <h3>Log-mel spectrogram <span class="muted small">(what the network sees)</span></h3>
         <img id="spec" class="spec" alt="Log-mel spectrogram of the analysed recording">
 
+        <!-- ===== Question 5: explanation ===== -->
+        <div class="xai" id="xai">
+          <div class="xai-head">
+            <div>
+              <h3>Why did the model give this score?</h3>
+              <p class="muted small">Grad-CAM heat map: the parts of the sound that pushed the fault score <b>up</b>, checked live by hiding them.</p>
+            </div>
+            <button class="ghost xai-btn" id="xai-btn" type="button">Explain this result</button>
+          </div>
+          <div class="xai-body hidden" id="xai-body">
+            <div class="xai-warn hidden" id="xai-warn"></div>
+            <div class="seg-mini" role="tablist">
+              <button type="button" class="mini active" data-view="overlay">Heat map</button>
+              <button type="button" class="mini" data-view="spec">Spectrogram only</button>
+            </div>
+            <img id="xai-img" class="spec" alt="Grad-CAM heat map over the spectrogram. Bright areas pushed the fault score up; the cyan outline is the area hidden in the check.">
+            <p class="legend small muted"><span class="lg-heat"></span> pushed the score up (brighter = more) &nbsp; <span class="lg-box"></span> top 20 % – hidden in the check below</p>
+            <ul class="xai-lines" id="xai-lines"></ul>
+            <div class="xai-grid">
+              <div>
+                <h4>Which frequencies mattered</h4>
+                <ul class="bands" id="xai-bands"></ul>
+              </div>
+              <div>
+                <h4>Check: does the highlighted area really matter?</h4>
+                <div class="xai-check" id="xai-check"></div>
+              </div>
+            </div>
+            <details class="explain caveat">
+              <summary>How to read this – and its limits</summary>
+              <p>The heat map shows <b>where</b> in the recording the network found fault-like patterns. It does <b>not</b> show <b>why</b> the machine is faulty, and it does not prove that the highlighted sound is the real cause of the score. Grad-CAM is an approximation built from the network's last layer, so it is blurry: it works on a coarse grid of blocks (the grid size is shown below the map), not on single frequencies.</p>
+              <p>The check hides the highlighted area (replaces it with an average level) and runs the network again. If the score falls more than when random areas are hidden, the model really depends on that area. A failed check means: do not trust the map for this recording.</p>
+              <p>A clean map does not mean a healthy machine. Use the explanation to decide <b>where to listen or look</b> during an inspection, not to replace the inspection.</p>
+            </details>
+            <div class="footer-meta" id="xai-meta"></div>
+          </div>
+        </div>
+
         <div class="footer-meta" id="meta"></div>
       </div>
     </section>

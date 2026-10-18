@@ -1,0 +1,249 @@
+path,machine_type,label,method,empty_map,ms,logit,drop_top,drop_random,passed,rho_vs_occlusion,gap
+data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,fan,0,Grad-CAM features.8,False,30.12940000189701,0.0675896406173706,0.049,0.143,False,-0.201677576727414,-0.09399999999999999
+data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,fan,0,Grad-CAM features.5,False,34.78999999788357,0.0675896406173706,0.26,0.143,True,-0.17984296261572716,0.11700000000000002
+data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,fan,0,Occlusion,False,260.5064000017592,,1.194,0.143,True,,1.051
+data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,fan,0,Integrated Gradients,False,236.624799996207,,0.157,0.143,True,0.1367836634243525,0.014000000000000012
+data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,fan,0,Grad-CAM features.8,False,31.78469999693334,-0.4328297972679138,0.462,0.262,True,-0.27910940853153465,0.2
+data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,fan,0,Grad-CAM features.5,False,32.76439999899594,-0.4328297972679138,1.556,0.262,True,-0.02175084964256416,1.294
+data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,fan,0,Occlusion,False,216.75850000610808,,2.244,0.262,True,,1.9820000000000002
+data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,fan,0,Integrated Gradients,False,144.96559999679448,,1.302,0.262,True,0.18150123051681707,1.04
+data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,fan,0,Grad-CAM features.8,False,33.20929999608779,-0.23649239540100098,-0.298,-0.181,False,0.014169147833828959,-0.11699999999999999
+data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,fan,0,Grad-CAM features.5,False,32.146500001545064,-0.23649239540100098,1.136,-0.181,True,0.08127560893265164,1.317
+data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,fan,0,Occlusion,False,208.43500000046333,,1.466,-0.181,True,,1.647
+data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,fan,0,Integrated Gradients,False,145.19570000265958,,-0.314,-0.181,False,0.09010312902847768,-0.133
+data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,fan,0,Grad-CAM features.8,False,30.765399998927023,-1.7520530223846436,-0.263,-0.158,False,-0.39071685425377534,-0.10500000000000001
+data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,fan,0,Grad-CAM features.5,False,44.82589999679476,-1.7520530223846436,-0.059,-0.158,True,-0.2740749318839761,0.099
+data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,fan,0,Occlusion,False,219.82090000528842,,-0.01,-0.158,True,,0.148
+data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,fan,0,Integrated Gradients,False,145.7379999992554,,-1.03,-0.158,False,0.345784015000586,-0.872
+data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,fan,0,Grad-CAM features.8,False,29.41070000088075,-0.8890021443367004,0.176,0.572,False,-0.1792413702728016,-0.39599999999999996
+data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,fan,0,Grad-CAM features.5,False,28.925799997523427,-0.8890021443367004,2.243,0.572,True,0.2085644221397154,1.6709999999999998
+data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,fan,0,Occlusion,False,207.84400000411551,,2.177,0.572,True,,1.605
+data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,fan,0,Integrated Gradients,False,145.25359999970533,,1.188,0.572,True,0.34537677253017696,0.616
+data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,fan,0,Grad-CAM features.8,False,30.099799994786736,-1.624067783355713,0.196,0.604,False,-0.202614369431204,-0.408
+data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,fan,0,Grad-CAM features.5,False,33.670100005110726,-1.624067783355713,1.224,0.604,True,-0.001198288995663893,0.62
+data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,fan,0,Occlusion,False,208.26620000298135,,1.505,0.604,True,,0.9009999999999999
+data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,fan,0,Integrated Gradients,False,145.63070000440348,,1.439,0.604,True,0.3387583499355443,0.8350000000000001
+data/raw/6_dB_fan/fan/id_04/normal/00000482.wav,fan,0,Grad-CAM features.8,False,35.9152000019094,-1.076078176498413,-0.828,0.072,False,,-0.8999999999999999
+data/raw/6_dB_fan/fan/id_04/normal/00000482.wav,fan,0,Grad-CAM features.5,False,33.72769999987213,-1.076078176498413,0.877,0.072,True,,0.805
+data/raw/6_dB_fan/fan/id_04/normal/00000295.wav,fan,0,Grad-CAM features.8,False,33.47850000136532,0.8902090787887573,-0.211,-0.43,True,,0.219
+data/raw/6_dB_fan/fan/id_04/normal/00000295.wav,fan,0,Grad-CAM features.5,False,35.51700000389246,0.8902090787887573,1.506,-0.43,True,,1.936
+data/raw/6_dB_fan/fan/id_04/normal/00000214.wav,fan,0,Grad-CAM features.8,False,32.67079999932321,-1.63009774684906,-0.706,-0.386,False,,-0.31999999999999995
+data/raw/6_dB_fan/fan/id_04/normal/00000214.wav,fan,0,Grad-CAM features.5,False,36.60440000385279,-1.63009774684906,1.07,-0.386,True,,1.456
+data/raw/6_dB_fan/fan/id_04/normal/00000471.wav,fan,0,Grad-CAM features.8,False,34.60730000369949,-1.6889245510101318,0.276,0.151,True,,0.12500000000000003
+data/raw/6_dB_fan/fan/id_04/normal/00000471.wav,fan,0,Grad-CAM features.5,False,29.43339999910677,-1.6889245510101318,1.606,0.151,True,,1.455
+data/raw/6_dB_fan/fan/id_04/normal/00000503.wav,fan,0,Grad-CAM features.8,False,30.213400001230184,0.562212347984314,-0.67,-0.856,True,,0.18599999999999994
+data/raw/6_dB_fan/fan/id_04/normal/00000503.wav,fan,0,Grad-CAM features.5,False,32.60060000320664,0.562212347984314,1.59,-0.856,True,,2.446
+data/raw/6_dB_fan/fan/id_04/normal/00000001.wav,fan,0,Grad-CAM features.8,False,32.417399997939356,-1.7588303089141846,-0.972,-0.104,False,,-0.868
+data/raw/6_dB_fan/fan/id_04/normal/00000001.wav,fan,0,Grad-CAM features.5,False,35.69720000086818,-1.7588303089141846,0.622,-0.104,True,,0.726
+data/raw/6_dB_fan/fan/id_04/normal/00000312.wav,fan,0,Grad-CAM features.8,False,31.141899999056477,-1.4949229955673218,0.069,0.165,False,,-0.096
+data/raw/6_dB_fan/fan/id_04/normal/00000312.wav,fan,0,Grad-CAM features.5,False,32.4114000031841,-1.4949229955673218,1.2,0.165,True,,1.035
+data/raw/6_dB_fan/fan/id_04/normal/00000358.wav,fan,0,Grad-CAM features.8,False,36.86839999863878,0.739893913269043,0.27,-0.36,True,,0.63
+data/raw/6_dB_fan/fan/id_04/normal/00000358.wav,fan,0,Grad-CAM features.5,False,42.613300000084564,0.739893913269043,-0.017,-0.36,True,,0.34299999999999997
+data/raw/6_dB_fan/fan/id_04/normal/00000821.wav,fan,0,Grad-CAM features.8,False,50.000199997157324,-1.661152720451355,-0.168,0.029,False,,-0.197
+data/raw/6_dB_fan/fan/id_04/normal/00000821.wav,fan,0,Grad-CAM features.5,False,35.78879999986384,-1.661152720451355,0.978,0.029,True,,0.949
+data/raw/6_dB_fan/fan/id_04/normal/00000914.wav,fan,0,Grad-CAM features.8,False,30.696899993927218,2.0822300910949707,-0.689,-0.838,True,,0.14900000000000002
+data/raw/6_dB_fan/fan/id_04/normal/00000914.wav,fan,0,Grad-CAM features.5,False,42.32320000301115,2.0822300910949707,0.242,-0.838,True,,1.08
+data/raw/6_dB_fan/fan/id_04/normal/00000108.wav,fan,0,Grad-CAM features.8,False,39.320500000030734,2.9329967498779297,0.028,0.489,False,,-0.46099999999999997
+data/raw/6_dB_fan/fan/id_04/normal/00000108.wav,fan,0,Grad-CAM features.5,False,34.22410000348464,2.9329967498779297,0.446,0.489,False,,-0.04299999999999998
+data/raw/6_dB_fan/fan/id_04/normal/00000472.wav,fan,0,Grad-CAM features.8,False,34.01819999999134,-1.1417611837387085,0.751,0.265,True,,0.486
+data/raw/6_dB_fan/fan/id_04/normal/00000472.wav,fan,0,Grad-CAM features.5,False,40.74240000045393,-1.1417611837387085,-0.171,0.265,False,,-0.43600000000000005
+data/raw/6_dB_fan/fan/id_04/normal/00000085.wav,fan,0,Grad-CAM features.8,False,31.37089999654563,-1.2884368896484375,-0.927,-0.899,False,,-0.028000000000000025
+data/raw/6_dB_fan/fan/id_04/normal/00000085.wav,fan,0,Grad-CAM features.5,False,30.358699994394556,-1.2884368896484375,1.316,-0.899,True,,2.215
+data/raw/6_dB_fan/fan/id_04/normal/00000624.wav,fan,0,Grad-CAM features.8,False,31.757400000060443,1.3174371719360352,0.392,-0.057,True,,0.449
+data/raw/6_dB_fan/fan/id_04/normal/00000624.wav,fan,0,Grad-CAM features.5,False,32.54220000235364,1.3174371719360352,2.57,-0.057,True,,2.627
+data/raw/6_dB_fan/fan/id_04/normal/00000027.wav,fan,0,Grad-CAM features.8,False,32.969200001389254,-1.731780767440796,-0.407,-0.335,False,,-0.07199999999999995
+data/raw/6_dB_fan/fan/id_04/normal/00000027.wav,fan,0,Grad-CAM features.5,False,32.13610000238987,-1.731780767440796,0.129,-0.335,True,,0.464
+data/raw/6_dB_fan/fan/id_04/normal/00000142.wav,fan,0,Grad-CAM features.8,False,30.058599993935786,-1.1562833786010742,-0.442,-0.285,False,,-0.15700000000000003
+data/raw/6_dB_fan/fan/id_04/normal/00000142.wav,fan,0,Grad-CAM features.5,False,34.418499999446794,-1.1562833786010742,1.092,-0.285,True,,1.377
+data/raw/6_dB_fan/fan/id_04/normal/00000494.wav,fan,0,Grad-CAM features.8,False,53.15089999930933,-0.22157859802246094,0.249,-0.705,True,,0.954
+data/raw/6_dB_fan/fan/id_04/normal/00000494.wav,fan,0,Grad-CAM features.5,False,33.32409999711672,-0.22157859802246094,2.232,-0.705,True,,2.9370000000000003
+data/raw/6_dB_fan/fan/id_04/normal/00000712.wav,fan,0,Grad-CAM features.8,False,30.835600002319552,-1.290414571762085,0.441,0.14,True,,0.301
+data/raw/6_dB_fan/fan/id_04/normal/00000712.wav,fan,0,Grad-CAM features.5,False,30.49009999813279,-1.290414571762085,1.857,0.14,True,,1.717
+data/raw/6_dB_fan/fan/id_04/normal/00000597.wav,fan,0,Grad-CAM features.8,False,31.6270000039367,-1.1617172956466675,-0.302,-0.102,False,,-0.2
+data/raw/6_dB_fan/fan/id_04/normal/00000597.wav,fan,0,Grad-CAM features.5,False,32.68899999966379,-1.1617172956466675,0.729,-0.102,True,,0.831
+data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,fan,1,Grad-CAM features.8,False,55.04970000038156,2.8631036281585693,0.135,-0.118,True,0.3199880463744144,0.253
+data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,fan,1,Grad-CAM features.5,False,33.901099996000994,2.8631036281585693,0.549,-0.118,True,0.2924411109808977,0.667
+data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,fan,1,Occlusion,False,210.16899999813177,,1.84,-0.118,True,,1.9580000000000002
+data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,fan,1,Integrated Gradients,False,145.6592999966233,,-0.574,-0.118,False,-0.019658971053556778,-0.45599999999999996
+data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,fan,1,Grad-CAM features.8,False,32.46480000234442,3.618014097213745,-0.304,-0.253,False,-0.20694656041251613,-0.05099999999999999
+data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,fan,1,Grad-CAM features.5,False,32.24230000341777,3.618014097213745,0.467,-0.253,True,0.1816389312082503,0.72
+data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,fan,1,Occlusion,False,210.2831000011065,,0.734,-0.253,True,,0.987
+data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,fan,1,Integrated Gradients,False,146.2835999991512,,-0.054,-0.253,True,-0.25551388726122115,0.199
+data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,fan,1,Grad-CAM features.8,False,35.14690000156406,2.309201955795288,1.775,-0.294,True,-0.11142036798312434,2.069
+data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,fan,1,Grad-CAM features.5,False,31.872899999143556,2.309201955795288,1.338,-0.294,True,-0.034993967256371425,1.6320000000000001
+data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,fan,1,Occlusion,False,210.24279999983264,,2.324,-0.294,True,,2.618
+data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,fan,1,Integrated Gradients,False,145.66860000195447,,-1.258,-0.294,False,0.061288526895581855,-0.964
+data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,fan,1,Grad-CAM features.8,False,33.34800000448013,3.2566487789154053,-0.299,-0.032,False,-0.10068850345716629,-0.267
+data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,fan,1,Grad-CAM features.5,False,30.101300006208476,3.2566487789154053,-0.016,-0.032,True,0.2384858783546232,0.016
+data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,fan,1,Occlusion,False,217.24869999889052,,1.4,-0.032,True,,1.432
+data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,fan,1,Integrated Gradients,False,145.85309999529272,,-0.136,-0.032,False,-0.2613676315481073,-0.10400000000000001
+data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,fan,1,Grad-CAM features.8,False,45.175300001574215,3.778303861618042,0.172,-0.085,True,0.20413102074299777,0.257
+data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,fan,1,Grad-CAM features.5,False,30.54350000456907,3.778303861618042,0.869,-0.085,True,0.38778604244557363,0.954
+data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,fan,1,Occlusion,False,208.74799999728566,,0.661,-0.085,True,,0.746
+data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,fan,1,Integrated Gradients,False,145.857800001977,,-0.257,-0.085,False,0.14184929098792923,-0.172
+data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,fan,1,Grad-CAM features.8,False,33.402299995941576,3.374371290206909,-0.032,-0.112,True,0.13687448728465956,0.08
+data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,fan,1,Grad-CAM features.5,False,32.3625999953947,3.374371290206909,0.234,-0.112,True,0.114253191699403,0.34600000000000003
+data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,fan,1,Occlusion,False,208.39189999969676,,1.26,-0.112,True,,1.372
+data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,fan,1,Integrated Gradients,False,146.06290000665467,,-0.438,-0.112,False,0.16215574827141685,-0.326
+data/raw/6_dB_fan/fan/id_04/abnormal/00000191.wav,fan,1,Grad-CAM features.8,False,30.66940000280738,2.9803965091705322,0.881,-0.208,True,,1.089
+data/raw/6_dB_fan/fan/id_04/abnormal/00000191.wav,fan,1,Grad-CAM features.5,False,29.966399997647386,2.9803965091705322,0.67,-0.208,True,,0.878
+data/raw/6_dB_fan/fan/id_04/abnormal/00000116.wav,fan,1,Grad-CAM features.8,False,44.01549999602139,2.996389389038086,2.778,-0.005,True,,2.783
+data/raw/6_dB_fan/fan/id_04/abnormal/00000116.wav,fan,1,Grad-CAM features.5,False,33.433799995691516,2.996389389038086,2.424,-0.005,True,,2.429
+data/raw/6_dB_fan/fan/id_04/abnormal/00000090.wav,fan,1,Grad-CAM features.8,False,32.34340000199154,3.1798617839813232,-0.14,-0.242,True,,0.10199999999999998
+data/raw/6_dB_fan/fan/id_04/abnormal/00000090.wav,fan,1,Grad-CAM features.5,False,36.25160000228789,3.1798617839813232,-0.123,-0.242,True,,0.119
+data/raw/6_dB_fan/fan/id_04/abnormal/00000249.wav,fan,1,Grad-CAM features.8,False,38.1374999997206,3.00103759765625,1.15,-0.373,True,,1.523
+data/raw/6_dB_fan/fan/id_04/abnormal/00000249.wav,fan,1,Grad-CAM features.5,False,32.72419999848353,3.00103759765625,0.681,-0.373,True,,1.054
+data/raw/6_dB_fan/fan/id_04/abnormal/00000329.wav,fan,1,Grad-CAM features.8,False,31.401300002471544,2.1633353233337402,0.087,-0.63,True,,0.717
+data/raw/6_dB_fan/fan/id_04/abnormal/00000329.wav,fan,1,Grad-CAM features.5,False,30.00899999460671,2.1633353233337402,-0.488,-0.63,True,,0.14200000000000002
+data/raw/6_dB_fan/fan/id_04/abnormal/00000068.wav,fan,1,Grad-CAM features.8,False,36.7640999975265,2.839740753173828,-0.417,-0.534,True,,0.11700000000000005
+data/raw/6_dB_fan/fan/id_04/abnormal/00000068.wav,fan,1,Grad-CAM features.5,False,33.9940000048955,2.839740753173828,-0.038,-0.534,True,,0.49600000000000005
+data/raw/6_dB_fan/fan/id_04/abnormal/00000224.wav,fan,1,Grad-CAM features.8,False,33.46280000550905,2.7266314029693604,0.067,-0.286,True,,0.353
+data/raw/6_dB_fan/fan/id_04/abnormal/00000224.wav,fan,1,Grad-CAM features.5,False,36.75700000167126,2.7266314029693604,0.217,-0.286,True,,0.503
+data/raw/6_dB_fan/fan/id_04/abnormal/00000132.wav,fan,1,Grad-CAM features.8,False,30.662600001960527,4.000471115112305,0.677,-0.003,True,,0.68
+data/raw/6_dB_fan/fan/id_04/abnormal/00000132.wav,fan,1,Grad-CAM features.5,False,32.75980000034906,4.000471115112305,1.263,-0.003,True,,1.2659999999999998
+data/raw/6_dB_fan/fan/id_04/abnormal/00000092.wav,fan,1,Grad-CAM features.8,False,33.95540000201436,3.419337034225464,0.375,0.095,True,,0.28
+data/raw/6_dB_fan/fan/id_04/abnormal/00000092.wav,fan,1,Grad-CAM features.5,False,35.349700003280304,3.419337034225464,-0.155,0.095,False,,-0.25
+data/raw/6_dB_fan/fan/id_04/abnormal/00000136.wav,fan,1,Grad-CAM features.8,False,32.557600003201514,2.54675030708313,0.903,-0.199,True,,1.102
+data/raw/6_dB_fan/fan/id_04/abnormal/00000136.wav,fan,1,Grad-CAM features.5,False,33.28260000125738,2.54675030708313,0.579,-0.199,True,,0.778
+data/raw/6_dB_fan/fan/id_04/abnormal/00000133.wav,fan,1,Grad-CAM features.8,False,35.132299999531824,3.614184617996216,0.748,0.139,True,,0.609
+data/raw/6_dB_fan/fan/id_04/abnormal/00000133.wav,fan,1,Grad-CAM features.5,False,30.46629999880679,3.614184617996216,1.437,0.139,True,,1.298
+data/raw/6_dB_fan/fan/id_04/abnormal/00000337.wav,fan,1,Grad-CAM features.8,False,31.342700000095647,3.7181780338287354,-0.111,-0.126,True,,0.015
+data/raw/6_dB_fan/fan/id_04/abnormal/00000337.wav,fan,1,Grad-CAM features.5,False,37.60590000456432,3.7181780338287354,0.282,-0.126,True,,0.408
+data/raw/6_dB_fan/fan/id_04/abnormal/00000217.wav,fan,1,Grad-CAM features.8,False,35.39479999744799,2.704091787338257,0.011,-0.233,True,,0.24400000000000002
+data/raw/6_dB_fan/fan/id_04/abnormal/00000217.wav,fan,1,Grad-CAM features.5,False,32.463000003190245,2.704091787338257,1.053,-0.233,True,,1.286
+data/raw/6_dB_fan/fan/id_04/abnormal/00000235.wav,fan,1,Grad-CAM features.8,False,35.598800001025666,2.387478828430176,0.657,-0.188,True,,0.845
+data/raw/6_dB_fan/fan/id_04/abnormal/00000235.wav,fan,1,Grad-CAM features.5,False,32.85429999959888,2.387478828430176,0.375,-0.188,True,,0.563
+data/raw/6_dB_fan/fan/id_04/abnormal/00000247.wav,fan,1,Grad-CAM features.8,False,32.65159999864409,3.3427345752716064,1.476,-0.209,True,,1.685
+data/raw/6_dB_fan/fan/id_04/abnormal/00000247.wav,fan,1,Grad-CAM features.5,False,34.0375999949174,3.3427345752716064,0.654,-0.209,True,,0.863
+data/raw/6_dB_fan/fan/id_04/abnormal/00000278.wav,fan,1,Grad-CAM features.8,False,34.45599999395199,3.3139688968658447,0.112,-0.234,True,,0.34600000000000003
+data/raw/6_dB_fan/fan/id_04/abnormal/00000278.wav,fan,1,Grad-CAM features.5,False,34.878200000093784,3.3139688968658447,0.647,-0.234,True,,0.881
+data/raw/6_dB_fan/fan/id_04/abnormal/00000037.wav,fan,1,Grad-CAM features.8,False,33.436300000175834,2.7043497562408447,-0.442,-0.591,True,,0.14899999999999997
+data/raw/6_dB_fan/fan/id_04/abnormal/00000037.wav,fan,1,Grad-CAM features.5,False,32.63090000109514,2.7043497562408447,0.552,-0.591,True,,1.143
+data/raw/6_dB_fan/fan/id_04/abnormal/00000103.wav,fan,1,Grad-CAM features.8,False,31.193999995593913,3.559251546859741,-0.376,-0.18,False,,-0.196
+data/raw/6_dB_fan/fan/id_04/abnormal/00000103.wav,fan,1,Grad-CAM features.5,False,31.321299997216556,3.559251546859741,0.715,-0.18,True,,0.895
+data/raw/6_dB_fan/fan/id_04/abnormal/00000150.wav,fan,1,Grad-CAM features.8,False,32.830700001795776,2.5795528888702393,0.964,-0.403,True,,1.367
+data/raw/6_dB_fan/fan/id_04/abnormal/00000150.wav,fan,1,Grad-CAM features.5,False,33.309800004644785,2.5795528888702393,0.923,-0.403,True,,1.326
+data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,pump,0,Grad-CAM features.8,False,32.34649999649264,4.108231544494629,1.203,0.422,True,0.1640249619125747,0.7810000000000001
+data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,pump,0,Grad-CAM features.5,False,33.603299998503644,4.108231544494629,0.428,0.422,True,-0.14222723543888433,0.006000000000000005
+data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,pump,0,Occlusion,False,211.88400000391994,,1.212,0.422,True,,0.79
+data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,pump,0,Integrated Gradients,False,145.9506999963196,,-0.057,0.422,False,0.22391890308215162,-0.479
+data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,pump,0,Grad-CAM features.8,False,33.95540000201436,3.9845592975616455,0.531,0.265,True,0.3514109570279252,0.266
+data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,pump,0,Grad-CAM features.5,False,33.673499994620215,3.9845592975616455,0.209,0.265,False,0.1981280016759011,-0.05600000000000002
+data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,pump,0,Occlusion,False,208.66080000268994,,0.949,0.265,True,,0.6839999999999999
+data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,pump,0,Integrated Gradients,False,146.29649999551475,,-0.014,0.265,False,0.4111555220582391,-0.279
+data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,pump,0,Grad-CAM features.8,False,36.04099999938626,2.9001002311706543,0.034,-0.082,True,0.1272472512944582,0.116
+data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,pump,0,Grad-CAM features.5,False,38.030300005630124,2.9001002311706543,0.795,-0.082,True,-0.0582064605157338,0.877
+data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,pump,0,Occlusion,False,210.1072999939788,,0.682,-0.082,True,,0.764
+data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,pump,0,Integrated Gradients,False,146.20909999939613,,-0.282,-0.082,False,0.14967636651560218,-0.19999999999999996
+data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,pump,0,Grad-CAM features.8,False,37.32550000131596,3.3415348529815674,2.002,0.333,True,0.14250849642564162,1.6689999999999998
+data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,pump,0,Grad-CAM features.5,False,30.59390000271378,3.3415348529815674,1.625,0.333,True,-0.13209012070784015,1.292
+data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,pump,0,Occlusion,False,210.5172000010498,,1.381,0.333,True,,1.048
+data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,pump,0,Integrated Gradients,False,146.43870000145398,,0.71,0.333,True,0.3788702683698582,0.37699999999999995
+data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,pump,0,Grad-CAM features.8,False,31.886700002360158,2.7325451374053955,-0.003,0.453,False,-0.07862422259481673,-0.456
+data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,pump,0,Grad-CAM features.5,False,31.613899998774286,2.7325451374053955,0.68,0.453,True,-0.515226180710184,0.22700000000000004
+data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,pump,0,Occlusion,False,212.4894000007771,,1.669,0.453,True,,1.216
+data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,pump,0,Integrated Gradients,False,146.54449999943608,,0.175,0.453,False,0.43573772412984885,-0.278
+data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,pump,0,Grad-CAM features.8,False,36.88490000058664,3.6048295497894287,-0.092,0.076,False,0.3650914098206961,-0.16799999999999998
+data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,pump,0,Grad-CAM features.5,False,34.08800000033807,3.6048295497894287,-0.725,0.076,False,-0.4460594163834525,-0.8009999999999999
+data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,pump,0,Occlusion,False,212.6988000018173,,0.785,0.076,True,,0.7090000000000001
+data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,pump,0,Integrated Gradients,False,146.61010000418173,,0.606,0.076,True,0.48533048165943976,0.53
+data/raw/6_dB_pump/pump/id_04/normal/00000031.wav,pump,0,Grad-CAM features.8,False,32.5620000003255,3.468743085861206,0.138,0.29,False,,-0.15199999999999997
+data/raw/6_dB_pump/pump/id_04/normal/00000031.wav,pump,0,Grad-CAM features.5,False,32.71680000034394,3.468743085861206,0.912,0.29,True,,0.6220000000000001
+data/raw/6_dB_pump/pump/id_04/normal/00000367.wav,pump,0,Grad-CAM features.8,False,42.68869999941671,4.633756637573242,1.823,0.364,True,,1.459
+data/raw/6_dB_pump/pump/id_04/normal/00000367.wav,pump,0,Grad-CAM features.5,False,34.26480000052834,4.633756637573242,0.339,0.364,False,,-0.024999999999999967
+data/raw/6_dB_pump/pump/id_04/normal/00000317.wav,pump,0,Grad-CAM features.8,False,36.3084999989951,3.269617795944214,0.726,0.225,True,,0.501
+data/raw/6_dB_pump/pump/id_04/normal/00000317.wav,pump,0,Grad-CAM features.5,False,31.9247000006726,3.269617795944214,0.348,0.225,True,,0.12299999999999997
+data/raw/6_dB_pump/pump/id_04/normal/00000501.wav,pump,0,Grad-CAM features.8,False,32.31640000012703,4.366887092590332,0.774,0.392,True,,0.382
+data/raw/6_dB_pump/pump/id_04/normal/00000501.wav,pump,0,Grad-CAM features.5,False,31.58600000460865,4.366887092590332,0.226,0.392,False,,-0.166
+data/raw/6_dB_pump/pump/id_04/normal/00000356.wav,pump,0,Grad-CAM features.8,False,35.717500002647284,4.139703750610352,1.298,-0.498,True,,1.796
+data/raw/6_dB_pump/pump/id_04/normal/00000356.wav,pump,0,Grad-CAM features.5,False,36.83820000151172,4.139703750610352,-0.321,-0.498,True,,0.177
+data/raw/6_dB_pump/pump/id_04/normal/00000456.wav,pump,0,Grad-CAM features.8,False,31.58090000215452,4.407842636108398,0.595,0.521,True,,0.07399999999999995
+data/raw/6_dB_pump/pump/id_04/normal/00000456.wav,pump,0,Grad-CAM features.5,False,31.9686999937403,4.407842636108398,0.202,0.521,False,,-0.319
+data/raw/6_dB_pump/pump/id_04/normal/00000272.wav,pump,0,Grad-CAM features.8,False,34.048299996356945,4.717700958251953,0.641,0.557,True,,0.08399999999999996
+data/raw/6_dB_pump/pump/id_04/normal/00000272.wav,pump,0,Grad-CAM features.5,False,39.02550000202609,4.717700958251953,0.455,0.557,False,,-0.10200000000000004
+data/raw/6_dB_pump/pump/id_04/normal/00000631.wav,pump,0,Grad-CAM features.8,False,32.905500003835186,3.795872449874878,0.077,0.302,False,,-0.22499999999999998
+data/raw/6_dB_pump/pump/id_04/normal/00000631.wav,pump,0,Grad-CAM features.5,False,36.20809999847552,3.795872449874878,0.408,0.302,True,,0.10599999999999998
+data/raw/6_dB_pump/pump/id_04/normal/00000700.wav,pump,0,Grad-CAM features.8,False,35.572000000684056,3.9348366260528564,1.031,0.392,True,,0.6389999999999999
+data/raw/6_dB_pump/pump/id_04/normal/00000700.wav,pump,0,Grad-CAM features.5,False,33.62080000079004,3.9348366260528564,0.559,0.392,True,,0.16700000000000004
+data/raw/6_dB_pump/pump/id_04/normal/00000546.wav,pump,0,Grad-CAM features.8,False,31.188600005407352,4.09935188293457,0.985,0.218,True,,0.767
+data/raw/6_dB_pump/pump/id_04/normal/00000546.wav,pump,0,Grad-CAM features.5,False,30.76409999630414,4.09935188293457,0.58,0.218,True,,0.362
+data/raw/6_dB_pump/pump/id_04/normal/00000008.wav,pump,0,Grad-CAM features.8,False,31.86209999694256,3.9817540645599365,0.509,0.137,True,,0.372
+data/raw/6_dB_pump/pump/id_04/normal/00000008.wav,pump,0,Grad-CAM features.5,False,45.99430000234861,3.9817540645599365,-0.494,0.137,False,,-0.631
+data/raw/6_dB_pump/pump/id_04/normal/00000079.wav,pump,0,Grad-CAM features.8,False,32.48219999659341,4.207197189331055,0.254,0.265,False,,-0.01100000000000001
+data/raw/6_dB_pump/pump/id_04/normal/00000079.wav,pump,0,Grad-CAM features.5,False,30.66979999857722,4.207197189331055,-0.058,0.265,False,,-0.323
+data/raw/6_dB_pump/pump/id_04/normal/00000339.wav,pump,0,Grad-CAM features.8,False,31.299499998567626,3.321772336959839,0.282,0.078,True,,0.20399999999999996
+data/raw/6_dB_pump/pump/id_04/normal/00000339.wav,pump,0,Grad-CAM features.5,False,32.12500000518048,3.321772336959839,0.514,0.078,True,,0.436
+data/raw/6_dB_pump/pump/id_04/normal/00000040.wav,pump,0,Grad-CAM features.8,False,38.570400000025984,4.247513771057129,1.128,1.202,False,,-0.07400000000000007
+data/raw/6_dB_pump/pump/id_04/normal/00000040.wav,pump,0,Grad-CAM features.5,False,32.453899999381974,4.247513771057129,0.472,1.202,False,,-0.73
+data/raw/6_dB_pump/pump/id_04/normal/00000113.wav,pump,0,Grad-CAM features.8,False,33.44120000110706,3.5636518001556396,0.411,-0.1,True,,0.511
+data/raw/6_dB_pump/pump/id_04/normal/00000113.wav,pump,0,Grad-CAM features.5,False,33.79249999852618,3.5636518001556396,0.375,-0.1,True,,0.475
+data/raw/6_dB_pump/pump/id_04/normal/00000236.wav,pump,0,Grad-CAM features.8,False,42.18899999978021,4.757270812988281,1.386,0.93,True,,0.45599999999999985
+data/raw/6_dB_pump/pump/id_04/normal/00000236.wav,pump,0,Grad-CAM features.5,False,33.138599996163975,4.757270812988281,0.169,0.93,False,,-0.761
+data/raw/6_dB_pump/pump/id_04/normal/00000351.wav,pump,0,Grad-CAM features.8,False,32.88570000586333,3.538007974624634,1.362,-0.087,True,,1.449
+data/raw/6_dB_pump/pump/id_04/normal/00000351.wav,pump,0,Grad-CAM features.5,False,33.04320000461303,3.538007974624634,-0.045,-0.087,True,,0.041999999999999996
+data/raw/6_dB_pump/pump/id_04/normal/00000157.wav,pump,0,Grad-CAM features.8,False,34.42910000012489,4.477602005004883,0.582,0.603,False,,-0.02100000000000002
+data/raw/6_dB_pump/pump/id_04/normal/00000157.wav,pump,0,Grad-CAM features.5,False,31.195299998216797,4.477602005004883,0.669,0.603,True,,0.06600000000000006
+data/raw/6_dB_pump/pump/id_04/normal/00000607.wav,pump,0,Grad-CAM features.8,False,32.80390000145417,3.1040492057800293,0.42,0.099,True,,0.32099999999999995
+data/raw/6_dB_pump/pump/id_04/normal/00000607.wav,pump,0,Grad-CAM features.5,False,32.74219999730121,3.1040492057800293,0.173,0.099,True,,0.07399999999999998
+data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,pump,1,Grad-CAM features.8,False,32.100299999001436,3.849883794784546,-0.053,0.841,False,0.4680007031524669,-0.894
+data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,pump,1,Grad-CAM features.5,False,31.933999998727813,3.849883794784546,0.467,0.841,False,-0.1736288526895582,-0.37399999999999994
+data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,pump,1,Occlusion,False,214.14069999445928,,3.063,0.841,True,,2.2220000000000004
+data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,pump,1,Integrated Gradients,False,146.69539999886183,,1.599,0.841,True,0.5900298839798429,0.758
+data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,pump,1,Grad-CAM features.8,False,33.037000001058914,0.8166996240615845,-0.189,0.381,False,0.40333758746899967,-0.5700000000000001
+data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,pump,1,Grad-CAM features.5,False,34.32319999410538,0.8166996240615845,0.461,0.381,True,0.19039421726268602,0.08000000000000002
+data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,pump,1,Occlusion,False,211.40100000047823,,2.645,0.381,True,,2.2640000000000002
+data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,pump,1,Integrated Gradients,False,147.3374999986845,,1.5,0.381,True,0.26482186804172037,1.119
+data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,pump,1,Grad-CAM features.8,False,41.36949999519857,3.5653398036956787,0.254,0.504,False,0.5655572483300129,-0.25
+data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,pump,1,Grad-CAM features.5,False,33.808599997428246,3.5653398036956787,0.932,0.504,True,0.34153580217977264,0.42800000000000005
+data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,pump,1,Occlusion,False,212.50409999629483,,1.041,0.504,True,,0.5369999999999999
+data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,pump,1,Integrated Gradients,False,146.54049999808194,,0.683,0.504,True,0.47968475331067617,0.17900000000000005
+data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,pump,1,Grad-CAM features.8,False,35.79119999631075,2.765301465988159,0.455,0.732,False,0.1327669049572249,-0.27699999999999997
+data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,pump,1,Grad-CAM features.5,False,33.046300006390084,2.765301465988159,1.419,0.732,True,0.39952361280967436,0.687
+data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,pump,1,Occlusion,False,211.51510000345297,,1.787,0.732,True,,1.055
+data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,pump,1,Integrated Gradients,False,146.33960000355728,,2.172,0.732,True,-0.014763272002812609,1.4400000000000002
+data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,pump,1,Grad-CAM features.8,False,35.28389999701176,3.788396120071411,0.595,0.422,True,-0.02665240829719911,0.173
+data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,pump,1,Grad-CAM features.5,False,36.11539999837987,3.788396120071411,0.186,0.422,False,-0.1968784402309507,-0.236
+data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,pump,1,Occlusion,False,209.29050000268035,,2.252,0.422,True,,1.8299999999999998
+data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,pump,1,Integrated Gradients,False,146.41529999789782,,1.649,0.422,True,-0.15008496425641626,1.227
+data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,pump,1,Grad-CAM features.8,False,33.278800001426134,1.4639832973480225,1.374,2.146,False,0.05243303200269647,-0.7719999999999998
+data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,pump,1,Grad-CAM features.5,False,33.03299999970477,1.4639832973480225,1.313,2.146,False,0.006630238929560141,-0.833
+data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,pump,1,Occlusion,False,212.84010000090348,,3.443,2.146,True,,1.2970000000000002
+data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,pump,1,Integrated Gradients,False,146.2134999965201,,2.866,2.146,True,0.2796027188562053,0.7200000000000002
+data/raw/6_dB_pump/pump/id_04/abnormal/00000016.wav,pump,1,Grad-CAM features.8,False,32.92859999783104,3.150029182434082,0.902,0.681,True,,0.22099999999999997
+data/raw/6_dB_pump/pump/id_04/abnormal/00000016.wav,pump,1,Grad-CAM features.5,False,32.02369999780785,3.150029182434082,0.662,0.681,False,,-0.019000000000000017
+data/raw/6_dB_pump/pump/id_04/abnormal/00000073.wav,pump,1,Grad-CAM features.8,False,32.38710000005085,4.611259460449219,0.643,0.518,True,,0.125
+data/raw/6_dB_pump/pump/id_04/abnormal/00000073.wav,pump,1,Grad-CAM features.5,False,42.28480000165291,4.611259460449219,0.217,0.518,False,,-0.30100000000000005
+data/raw/6_dB_pump/pump/id_04/abnormal/00000054.wav,pump,1,Grad-CAM features.8,False,32.83660000306554,2.5456037521362305,-0.147,-0.0,False,,-0.147
+data/raw/6_dB_pump/pump/id_04/abnormal/00000054.wav,pump,1,Grad-CAM features.5,False,34.58120000141207,2.5456037521362305,0.171,-0.0,True,,0.171
+data/raw/6_dB_pump/pump/id_04/abnormal/00000095.wav,pump,1,Grad-CAM features.8,False,36.29450000153156,2.3688573837280273,-0.429,1.667,False,,-2.096
+data/raw/6_dB_pump/pump/id_04/abnormal/00000095.wav,pump,1,Grad-CAM features.5,False,39.82019999966724,2.3688573837280273,4.457,1.667,True,,2.79
+data/raw/6_dB_pump/pump/id_04/abnormal/00000053.wav,pump,1,Grad-CAM features.8,False,34.51919999497477,2.7426795959472656,0.624,0.058,True,,0.566
+data/raw/6_dB_pump/pump/id_04/abnormal/00000053.wav,pump,1,Grad-CAM features.5,False,31.606100004864857,2.7426795959472656,0.111,0.058,True,,0.053
+data/raw/6_dB_pump/pump/id_04/abnormal/00000092.wav,pump,1,Grad-CAM features.8,False,37.5147000013385,1.683720588684082,-0.052,1.698,False,,-1.75
+data/raw/6_dB_pump/pump/id_04/abnormal/00000092.wav,pump,1,Grad-CAM features.5,False,38.28990000329213,1.683720588684082,-0.362,1.698,False,,-2.06
+data/raw/6_dB_pump/pump/id_04/abnormal/00000078.wav,pump,1,Grad-CAM features.8,False,32.40329999971436,3.3036868572235107,0.3,0.425,False,,-0.125
+data/raw/6_dB_pump/pump/id_04/abnormal/00000078.wav,pump,1,Grad-CAM features.5,False,36.49769999901764,3.3036868572235107,0.086,0.425,False,,-0.33899999999999997
+data/raw/6_dB_pump/pump/id_04/abnormal/00000013.wav,pump,1,Grad-CAM features.8,False,53.36009999882663,4.774007797241211,0.791,1.067,False,,-0.2759999999999999
+data/raw/6_dB_pump/pump/id_04/abnormal/00000013.wav,pump,1,Grad-CAM features.5,False,33.84809999988647,4.774007797241211,0.878,1.067,False,,-0.18899999999999995
+data/raw/6_dB_pump/pump/id_04/abnormal/00000007.wav,pump,1,Grad-CAM features.8,False,32.721900002798066,3.3080947399139404,0.693,0.11,True,,0.583
+data/raw/6_dB_pump/pump/id_04/abnormal/00000007.wav,pump,1,Grad-CAM features.5,False,34.20200000255136,3.3080947399139404,0.395,0.11,True,,0.28500000000000003
+data/raw/6_dB_pump/pump/id_04/abnormal/00000030.wav,pump,1,Grad-CAM features.8,False,40.460199998051394,2.950197219848633,0.452,0.787,False,,-0.335
+data/raw/6_dB_pump/pump/id_04/abnormal/00000030.wav,pump,1,Grad-CAM features.5,False,46.73980000370648,2.950197219848633,0.52,0.787,False,,-0.267
+data/raw/6_dB_pump/pump/id_04/abnormal/00000022.wav,pump,1,Grad-CAM features.8,False,32.24590000172611,2.5994699001312256,0.533,1.026,False,,-0.493
+data/raw/6_dB_pump/pump/id_04/abnormal/00000022.wav,pump,1,Grad-CAM features.5,False,32.25340000062715,2.5994699001312256,0.212,1.026,False,,-0.8140000000000001
+data/raw/6_dB_pump/pump/id_04/abnormal/00000024.wav,pump,1,Grad-CAM features.8,False,54.29329999606125,1.5742735862731934,-0.152,-0.293,True,,0.141
+data/raw/6_dB_pump/pump/id_04/abnormal/00000024.wav,pump,1,Grad-CAM features.5,False,32.26069999800529,1.5742735862731934,0.032,-0.293,True,,0.32499999999999996
+data/raw/6_dB_pump/pump/id_04/abnormal/00000033.wav,pump,1,Grad-CAM features.8,False,33.08119999564951,3.180325746536255,0.254,0.607,False,,-0.353
+data/raw/6_dB_pump/pump/id_04/abnormal/00000033.wav,pump,1,Grad-CAM features.5,False,42.79970000061439,3.180325746536255,1.103,0.607,True,,0.496
+data/raw/6_dB_pump/pump/id_04/abnormal/00000008.wav,pump,1,Grad-CAM features.8,False,38.90279999905033,3.294771909713745,0.341,-0.152,True,,0.493
+data/raw/6_dB_pump/pump/id_04/abnormal/00000008.wav,pump,1,Grad-CAM features.5,False,36.74940000200877,3.294771909713745,0.34,-0.152,True,,0.492
+data/raw/6_dB_pump/pump/id_04/abnormal/00000043.wav,pump,1,Grad-CAM features.8,False,34.372499998426065,2.763913631439209,-0.171,0.639,False,,-0.81
+data/raw/6_dB_pump/pump/id_04/abnormal/00000043.wav,pump,1,Grad-CAM features.5,False,38.17410000192467,2.763913631439209,0.803,0.639,True,,0.16400000000000003
+data/raw/6_dB_pump/pump/id_04/abnormal/00000062.wav,pump,1,Grad-CAM features.8,False,35.09000000485685,3.1066834926605225,2.481,0.888,True,,1.593
+data/raw/6_dB_pump/pump/id_04/abnormal/00000062.wav,pump,1,Grad-CAM features.5,False,37.556899995252024,3.1066834926605225,1.962,0.888,True,,1.0739999999999998
+data/raw/6_dB_pump/pump/id_04/abnormal/00000003.wav,pump,1,Grad-CAM features.8,False,34.087399995769374,3.1233274936676025,0.412,0.263,True,,0.14899999999999997
+data/raw/6_dB_pump/pump/id_04/abnormal/00000003.wav,pump,1,Grad-CAM features.5,False,35.7674999977462,3.1233274936676025,0.912,0.263,True,,0.649
+data/raw/6_dB_pump/pump/id_04/abnormal/00000071.wav,pump,1,Grad-CAM features.8,False,33.28889999829698,4.332571029663086,-0.197,-0.063,False,,-0.134
+data/raw/6_dB_pump/pump/id_04/abnormal/00000071.wav,pump,1,Grad-CAM features.5,False,38.601899999775924,4.332571029663086,0.805,-0.063,True,,0.8680000000000001
+data/raw/6_dB_pump/pump/id_04/abnormal/00000045.wav,pump,1,Grad-CAM features.8,False,32.6612999997451,3.9047648906707764,0.497,0.925,False,,-0.42800000000000005
+data/raw/6_dB_pump/pump/id_04/abnormal/00000045.wav,pump,1,Grad-CAM features.5,False,36.52490000240505,3.9047648906707764,0.591,0.925,False,,-0.3340000000000001

@@ -11,6 +11,8 @@ Endpoints
   GET  /api/examples              demo clips from the project data (normal, abnormal, and known mistakes)
   GET  /api/examples/{id}/audio   stream an example clip
   POST /api/examples/{id}/predict run the model on an example clip (at request time, like an upload)
+  POST /api/explain               (Q5) same form as /api/predict -> prediction + Grad-CAM explanation + check
+  POST /api/examples/{id}/explain (Q5) explanation for a demo clip
 
 Every prediction is appended to logs/predictions.jsonl (audit trail, not committed to Git).
 """
@@ -89,10 +91,11 @@ def audit(entry: dict) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
-def run_prediction(data: bytes, filename: str, machine_type: str, source: str) -> dict:
+def run_prediction(data: bytes, filename: str, machine_type: str, source: str, explain: bool = False) -> dict:
     rid = uuid.uuid4().hex[:12]
     try:
-        res = STATE["detector"].predict(data, filename, machine_type)
+        d = STATE["detector"]
+        res = d.explain(data, filename, machine_type) if explain else d.predict(data, filename, machine_type)
     except InputError as e:
         audit({"time": datetime.now().isoformat(timespec="seconds"), "request_id": rid, "source": source,
                "file": filename, "machine_type": machine_type, "rejected": e.code})
@@ -101,7 +104,9 @@ def run_prediction(data: bytes, filename: str, machine_type: str, source: str) -
     res["file"] = filename
     audit({"time": datetime.now().isoformat(timespec="seconds"), "request_id": rid, "source": source, "file": filename,
            "machine_type": machine_type, "score": res["score"], "threshold": res["threshold"], "verdict": res["verdict"],
-           "ood_status": res["ood_status"], "latency_ms": res["timing_ms"]["total"]})
+           "ood_status": res["ood_status"], "latency_ms": res["timing_ms"]["total"],
+           **({"explained": True, "xai_check_passed": (res["explanation"].get("check") or {}).get("passed")}
+              if explain else {})})
     return res
 
 
@@ -121,6 +126,12 @@ def model_card():
 async def predict(file: UploadFile = File(...), machine_type: str = Form(...)):
     data = await file.read(MAX_BYTES + 1)
     return run_prediction(data, file.filename or "", machine_type.strip().lower(), "upload")
+
+
+@app.post("/api/explain")
+async def explain(file: UploadFile = File(...), machine_type: str = Form(...)):
+    data = await file.read(MAX_BYTES + 1)
+    return run_prediction(data, file.filename or "", machine_type.strip().lower(), "upload", explain=True)
 
 
 @app.get("/api/examples")
@@ -145,6 +156,14 @@ def example_audio(ex_id: str):
 def example_predict(ex_id: str):
     e = _example(ex_id)
     res = run_prediction((ROOT / e["path"]).read_bytes(), e["file"], e["machine_type"], f"example:{ex_id}")
+    res["true_label"] = e["true_label"]
+    return res
+
+
+@app.post("/api/examples/{ex_id}/explain")
+def example_explain(ex_id: str):
+    e = _example(ex_id)
+    res = run_prediction((ROOT / e["path"]).read_bytes(), e["file"], e["machine_type"], f"example:{ex_id}", explain=True)
     res["true_label"] = e["true_label"]
     return res
 

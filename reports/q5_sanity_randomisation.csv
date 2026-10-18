@@ -1,0 +1,97 @@
+randomised,path,spearman_vs_original
+head,data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,0.2339179486281687
+head,data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,0.18488628839471907
+head,data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,0.2740735123137406
+head,data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,0.11282718670718507
+head,data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,-0.1717821499885912
+head,data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,0.16261077968751886
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,-0.2020297796672296
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,-0.39410208075331116
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,0.11298990589468952
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,-0.008690527492586904
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,-0.5439736761476706
+head,data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,0.299585570046732
+head,data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,0.08924267171261023
+head,data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,-0.015610789912692982
+head,data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,-0.2516588937847124
+head,data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,0.08311189207744993
+head,data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,-0.46732646451877824
+head,data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,-0.1577828265776141
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,-0.3069952365018216
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,-0.0831095032675194
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,-0.2987746395795892
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,0.030261476565749984
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,-0.29284985724873797
+head,data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,-0.625277588510301
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,0.2848693517769063
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,-0.07846392025681043
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,0.0074223048397900815
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,-0.08304364596995106
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,-0.45365598414506964
+head + features.8,data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,-0.21387147054078434
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,-0.3174764551068154
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,-0.13049116354136933
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,0.674463629989758
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,-0.3836040049051212
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,0.7072535626547789
+head + features.8,data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,0.5359321017598817
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,0.2583092616820944
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,0.373510327959193
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,0.3719867122954263
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,0.17210347231800766
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,0.12207207031041542
+head + features.8,data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,0.0771846894079314
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,0.3988814780066795
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,0.34181319874492894
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,0.20447748962574352
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,-0.26422227250372826
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,0.558427416459278
+head + features.8,data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,0.15785124925941627
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,-0.2831402578245853
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,-0.23210692579320202
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,-0.19319917719438703
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,-0.6098761981240811
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,0.07843946305661467
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,-0.2881182851724045
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,-0.15758248471699457
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,-0.38350961387169324
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,-0.04433357981533193
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,-0.30476428158576585
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,0.03802360299653316
+head + features.8 + features.7,data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,-0.15451918214623217
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,0.2681027807309217
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,-0.00535589781616896
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,0.03708124303737705
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,-0.04881045396669744
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,-0.04754535136080846
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,0.7041825755819956
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,-0.2177568506530164
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,-0.35226691801360877
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,-0.6017832753996031
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,0.5697378066461506
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,-0.5871221465320172
+head + features.8 + features.7,data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,-0.37507346539223924
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00000641.wav,-0.5319685482228842
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00000601.wav,-0.438989341756646
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00000592.wav,-0.1380644208936221
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00001028.wav,-0.36219483680578574
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00000317.wav,-0.11535358390715741
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/normal/00000757.wav,-0.35361655650375706
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000006.wav,-0.5690779082132337
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000052.wav,-0.4443368278938261
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000269.wav,-0.3646837807361901
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000045.wav,-0.5879771175307281
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000294.wav,-0.46970895100075194
+head + features.8 + features.7 + features.6,data/raw/6_dB_fan/fan/id_04/abnormal/00000189.wav,-0.23765785784806953
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000538.wav,-0.292945563682522
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000476.wav,-0.09733791138025244
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000547.wav,-0.42372272202338657
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000573.wav,-0.1834736776389061
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000517.wav,-0.5596284501993797
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/normal/00000014.wav,-0.5164848773351439
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000026.wav,-0.4068537059743509
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000086.wav,-0.46419416175144396
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000002.wav,-0.7182446022654027
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000055.wav,-0.43666974949413845
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000075.wav,-0.6657768536372062
+head + features.8 + features.7 + features.6,data/raw/6_dB_pump/pump/id_04/abnormal/00000093.wav,-0.6673747293297358

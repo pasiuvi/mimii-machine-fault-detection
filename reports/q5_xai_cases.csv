@@ -1,0 +1,12 @@
+source,file,machine_type,true_label,q3_result,score,threshold,verdict,correct,ood,seed_votes,top_band,top_band_share,time,matches_q1_band,score_top_hidden,score_random_hidden,logit_drop_top,logit_drop_random,check_passed,path
+demo,00000587.wav,pump,normal,normal,0.9728,0.9904,no_alarm,True,in_distribution,0/3,4–8 kHz,0.325,spread over clip,False,0.9512,0.9572,0.608,0.421,True,data/raw/6_dB_pump/pump/id_06/normal/00000587.wav
+demo,00000081.wav,pump,abnormal,abnormal,0.9921,0.9904,alarm,True,unusual,1/3,1–2 kHz,0.327,spread over clip,False,0.9943,0.9936,-0.323,-0.217,False,data/raw/6_dB_pump/pump/id_06/abnormal/00000081.wav
+demo,00000058.wav,pump,abnormal,missed fault,0.9755,0.9904,no_alarm,False,in_distribution,0/3,300–600 Hz,0.223,spread over clip,True,0.8529,0.9763,1.926,-0.09,True,data/raw/6_dB_pump/pump/id_06/abnormal/00000058.wav
+demo,00000731.wav,pump,normal,false alarm,0.9939,0.9904,alarm,False,in_distribution,1/3,1–2 kHz,0.236,spread over clip,False,0.9583,0.9919,1.958,0.252,True,data/raw/6_dB_pump/pump/id_06/normal/00000731.wav
+demo,00000459.wav,fan,normal,normal,0.7385,0.8151,no_alarm,True,in_distribution,2/3,1–2 kHz,0.34,spread over clip,True,0.7926,0.5971,-0.303,0.63,False,data/raw/6_dB_fan/fan/id_06/normal/00000459.wav
+demo,00000177.wav,fan,abnormal,abnormal,0.9709,0.8151,alarm,True,unusual,3/3,1–2 kHz,0.291,spread over clip,True,0.97,0.9528,0.031,0.485,False,data/raw/6_dB_fan/fan/id_06/abnormal/00000177.wav
+demo,00000063.wav,fan,abnormal,missed fault,0.755,0.8151,no_alarm,False,unusual,2/3,4–8 kHz,0.33,spread over clip,False,0.5896,0.8477,0.763,-0.658,True,data/raw/6_dB_fan/fan/id_06/abnormal/00000063.wav
+demo,00000083.wav,fan,normal,false alarm,0.9696,0.8151,alarm,False,unusual,3/3,1–2 kHz,0.276,spread over clip,True,0.9612,0.9693,0.253,-0.005,True,data/raw/6_dB_fan/fan/id_06/normal/00000083.wav
+hardest error,00000002.wav,pump,abnormal,missed fault,0.4833,0.9904,no_alarm,False,unusual,0/3,4–8 kHz,0.525,spread over clip,False,0.3793,0.28,0.427,1.015,False,data/raw/6_dB_pump/pump/id_06/abnormal/00000002.wav
+hardest error,00000322.wav,fan,abnormal,missed fault,0.5507,0.8151,no_alarm,False,unusual,1/3,2–4 kHz,0.308,spread over clip,True,0.3799,0.6432,0.694,-0.401,True,data/raw/6_dB_fan/fan/id_06/abnormal/00000322.wav
+hardest error,00000035.wav,fan,abnormal,missed fault,0.616,0.8151,no_alarm,False,unusual,1/3,1–2 kHz,0.346,spread over clip,True,0.6869,0.5481,-0.312,0.258,False,data/raw/6_dB_fan/fan/id_06/abnormal/00000035.wav

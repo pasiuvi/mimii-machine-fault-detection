@@ -1,0 +1,5 @@
+method,clips,drop_top,drop_random,gap,pass_rate,rho_vs_occlusion,ms_per_clip,empty_maps
+Grad-CAM features.8,100,0.356,0.151,0.205,0.59,0.07,33.284,0.0
+Grad-CAM features.5,100,0.685,0.151,0.534,0.76,0.019,33.519,0.0
+Occlusion,24,1.571,0.285,1.286,1.0,,210.959,0.0
+Integrated Gradients,24,0.485,0.285,0.2,0.542,0.2,146.211,0.0

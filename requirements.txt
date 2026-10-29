@@ -33,3 +33,6 @@ uvicorn>=0.29
 python-multipart>=0.0.9
 pytest>=8.0
 httpx>=0.27
+
+# --- Stage 6: foundation model (Question 6) ---
+transformers>=4.40

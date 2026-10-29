@@ -1,0 +1,89 @@
+{
+  "model": "laion/clap-htsat-unfused",
+  "revision": "unknown",
+  "rule": "max validation macro TPR@FPR5, tie-break validation macro ROC-AUC",
+  "chosen": {
+    "A zero-shot": {
+      "setting": "P4_fault_types",
+      "val_macro_TPR@FPR5": 0.1137,
+      "val_macro_AUC": 0.3228
+    },
+    "B linear probe": {
+      "setting": "C=0.1",
+      "val_macro_TPR@FPR5": 0.2304,
+      "val_macro_AUC": 0.6995
+    },
+    "C normal-only kNN": {
+      "setting": "k=1",
+      "val_macro_TPR@FPR5": 0.1295,
+      "val_macro_AUC": 0.4357
+    },
+    "D enrolment (extra)": {
+      "setting": "k=3",
+      "val_macro_TPR@FPR5": 0.5024,
+      "val_macro_AUC": 0.8554
+    }
+  },
+  "prompt_sets": {
+    "P1_simple": {
+      "normal": [
+        "the sound of a {m} running normally"
+      ],
+      "abnormal": [
+        "the sound of a faulty {m}"
+      ]
+    },
+    "P2_industrial": {
+      "normal": [
+        "a healthy industrial {m} operating smoothly in a factory"
+      ],
+      "abnormal": [
+        "a broken industrial {m} making an abnormal noise in a factory"
+      ]
+    },
+    "P3_generic": {
+      "normal": [
+        "normal machine sound"
+      ],
+      "abnormal": [
+        "abnormal machine sound"
+      ]
+    },
+    "P4_fault_types": {
+      "normal": [
+        "a {m} operating normally"
+      ],
+      "abnormal": {
+        "pump": [
+          "a pump with a leak",
+          "a clogged pump",
+          "a contaminated pump"
+        ],
+        "fan": [
+          "an unbalanced fan",
+          "a clogged fan",
+          "a fan with an unstable voltage"
+        ]
+      }
+    },
+    "P5_acoustic": {
+      "normal": [
+        "a steady, smooth humming {m}"
+      ],
+      "abnormal": [
+        "a {m} making rattling, grinding or squealing noises"
+      ]
+    },
+    "P6_maintenance": {
+      "normal": [
+        "a {m} that does not need maintenance"
+      ],
+      "abnormal": [
+        "a {m} that needs urgent maintenance"
+      ]
+    },
+    "P7_ensemble": "all"
+  },
+  "n_enrol": 20,
+  "built": "2026-10-29T22:32:15"
+}

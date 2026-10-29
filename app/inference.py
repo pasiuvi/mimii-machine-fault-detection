@@ -18,6 +18,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import os
 import threading
 import time
 from dataclasses import dataclass, field
@@ -154,7 +155,10 @@ def shape_distance(S: np.ndarray, ref_profile: np.ndarray) -> float:
 # ------------------------------------------------------------------ the detector
 class FaultDetector:
     def __init__(self, device: str | None = None):
-        self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
+        # ACOUSTIGUARD_DEVICE=cpu forces CPU (used online and in the deploy smoke test)
+        want = device or os.environ.get("ACOUSTIGUARD_DEVICE") or (
+            "cuda" if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "cpu")
+        self.device = torch.device(want)
         meta = json.loads((MODELS / "final_model.json").read_text())
         self.deployed_id = meta["source_run"]
         self.thresholds = {k: float(v) for k, v in meta["thresholds_val_fpr5"].items()}

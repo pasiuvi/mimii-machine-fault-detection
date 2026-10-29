@@ -1,0 +1,225 @@
+{
+  "date": "2026-10-29T22:32:56",
+  "config": {
+    "model": "laion/clap-htsat-unfused",
+    "revision": "unknown",
+    "rule": "max validation macro TPR@FPR5, tie-break validation macro ROC-AUC",
+    "chosen": {
+      "A zero-shot": {
+        "setting": "P4_fault_types",
+        "val_macro_TPR@FPR5": 0.1137,
+        "val_macro_AUC": 0.3228
+      },
+      "B linear probe": {
+        "setting": "C=0.1",
+        "val_macro_TPR@FPR5": 0.2304,
+        "val_macro_AUC": 0.6995
+      },
+      "C normal-only kNN": {
+        "setting": "k=1",
+        "val_macro_TPR@FPR5": 0.1295,
+        "val_macro_AUC": 0.4357
+      },
+      "D enrolment (extra)": {
+        "setting": "k=3",
+        "val_macro_TPR@FPR5": 0.5024,
+        "val_macro_AUC": 0.8554
+      }
+    },
+    "prompt_sets": {
+      "P1_simple": {
+        "normal": [
+          "the sound of a {m} running normally"
+        ],
+        "abnormal": [
+          "the sound of a faulty {m}"
+        ]
+      },
+      "P2_industrial": {
+        "normal": [
+          "a healthy industrial {m} operating smoothly in a factory"
+        ],
+        "abnormal": [
+          "a broken industrial {m} making an abnormal noise in a factory"
+        ]
+      },
+      "P3_generic": {
+        "normal": [
+          "normal machine sound"
+        ],
+        "abnormal": [
+          "abnormal machine sound"
+        ]
+      },
+      "P4_fault_types": {
+        "normal": [
+          "a {m} operating normally"
+        ],
+        "abnormal": {
+          "pump": [
+            "a pump with a leak",
+            "a clogged pump",
+            "a contaminated pump"
+          ],
+          "fan": [
+            "an unbalanced fan",
+            "a clogged fan",
+            "a fan with an unstable voltage"
+          ]
+        }
+      },
+      "P5_acoustic": {
+        "normal": [
+          "a steady, smooth humming {m}"
+        ],
+        "abnormal": [
+          "a {m} making rattling, grinding or squealing noises"
+        ]
+      },
+      "P6_maintenance": {
+        "normal": [
+          "a {m} that does not need maintenance"
+        ],
+        "abnormal": [
+          "a {m} that needs urgent maintenance"
+        ]
+      },
+      "P7_ensemble": "all"
+    },
+    "n_enrol": 20,
+    "built": "2026-10-29T22:32:15"
+  },
+  "results": [
+    {
+      "Model": "CLAP zero-shot (P4_fault_types)",
+      "Test macro TPR@FPR5": 0.2114,
+      "95% CI": "0.162\u20130.266",
+      "Pump TPR@FPR5": 0.4118,
+      "Fan TPR@FPR5": 0.0111,
+      "Test pooled TPR@FPR5": 0.0194,
+      "Test macro ROC-AUC": 0.4666,
+      "Test macro pAUC(0.1)": 0.5817,
+      "Val macro TPR@FPR5": 0.1137,
+      "Training data": "0 labels, 0 training"
+    },
+    {
+      "Model": "CLAP linear probe (C=0.1)",
+      "Test macro TPR@FPR5": 0.4451,
+      "95% CI": "0.410\u20130.488",
+      "Pump TPR@FPR5": 0.8431,
+      "Fan TPR@FPR5": 0.0471,
+      "Test pooled TPR@FPR5": 0.1987,
+      "Test macro ROC-AUC": 0.7399,
+      "Test macro pAUC(0.1)": 0.6987,
+      "Val macro TPR@FPR5": 0.2305,
+      "Training data": "same labelled train clips as the ANN"
+    },
+    {
+      "Model": "CLAP normal-only kNN (k=1)",
+      "Test macro TPR@FPR5": 0.3487,
+      "95% CI": "0.293\u20130.403",
+      "Pump TPR@FPR5": 0.6863,
+      "Fan TPR@FPR5": 0.0111,
+      "Test pooled TPR@FPR5": 0.1728,
+      "Test macro ROC-AUC": 0.5887,
+      "Test macro pAUC(0.1)": 0.6406,
+      "Val macro TPR@FPR5": 0.1295,
+      "Training data": "normal train clips only"
+    }
+  ],
+  "operating_points": {
+    "CLAP zero-shot (P4_fault_types)": {
+      "pump": {
+        "threshold": 0.027617722749710083,
+        "TP": 0,
+        "FN": 102,
+        "FP": 0,
+        "TN": 1036,
+        "test_TPR_at_val_threshold": 0.0,
+        "test_FPR_at_val_threshold": 0.0
+      },
+      "fan": {
+        "threshold": 0.1128527820110321,
+        "TP": 107,
+        "FN": 254,
+        "FP": 1013,
+        "TN": 2,
+        "test_TPR_at_val_threshold": 0.2964,
+        "test_FPR_at_val_threshold": 0.998
+      }
+    },
+    "CLAP linear probe (C=0.1)": {
+      "pump": {
+        "threshold": 14.924001693725586,
+        "TP": 55,
+        "FN": 47,
+        "FP": 8,
+        "TN": 1028,
+        "test_TPR_at_val_threshold": 0.5392,
+        "test_FPR_at_val_threshold": 0.0077
+      },
+      "fan": {
+        "threshold": 0.18594837188720703,
+        "TP": 301,
+        "FN": 60,
+        "FP": 853,
+        "TN": 162,
+        "test_TPR_at_val_threshold": 0.8338,
+        "test_FPR_at_val_threshold": 0.8404
+      }
+    },
+    "CLAP normal-only kNN (k=1)": {
+      "pump": {
+        "threshold": 0.3040463924407959,
+        "TP": 22,
+        "FN": 80,
+        "FP": 3,
+        "TN": 1033,
+        "test_TPR_at_val_threshold": 0.2157,
+        "test_FPR_at_val_threshold": 0.0029
+      },
+      "fan": {
+        "threshold": 0.10856914520263672,
+        "TP": 110,
+        "FN": 251,
+        "FP": 836,
+        "TN": 179,
+        "test_TPR_at_val_threshold": 0.3047,
+        "test_FPR_at_val_threshold": 0.8236
+      }
+    }
+  },
+  "enrolment": {
+    "setting": "k=3, 20 normal reference clips per machine",
+    "clips_scored": 2474,
+    "test_macro_TPR@FPR5": 0.622,
+    "pump": 0.5294,
+    "fan": 0.7147,
+    "test_macro_AUC": 0.8936,
+    "val_macro_TPR@FPR5": 0.5024
+  },
+  "latency": {
+    "CLAP latency per clip (ms), device": 79.7,
+    "CLAP latency CPU (ms)": 255.5,
+    "CLAP model only (ms), device": 110.3,
+    "device": "cuda",
+    "params_total_M": 153.5,
+    "params_audio_M": 28.2
+  },
+  "meta": {
+    "model": "laion/clap-htsat-unfused",
+    "revision": "unknown",
+    "device": "cuda",
+    "params_total": 153492890,
+    "params_audio": 28190872,
+    "sample_rate": 48000,
+    "embedding_minutes": 20.71,
+    "transformers": "5.22.0",
+    "torch": "2.11.0+cu128",
+    "built": "2026-10-29T22:26:50",
+    "latency_ms_device": 79.7,
+    "latency_ms_model_only_device": 110.3,
+    "latency_ms_cpu": 255.5,
+    "machine": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  }
+}

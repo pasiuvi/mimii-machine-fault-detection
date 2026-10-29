@@ -52,6 +52,7 @@ from src.evaluation import bootstrap_ci, metrics_by_type, operating_points, time
 from src.metrics import TYPES, macro_tpr_at_fpr  # noqa: E402
 
 MODEL_ID = "laion/clap-htsat-unfused"
+REVISION = "8fa0f1c6d0433df6e97c127f64b2a1d6c0dcda8a"   # Hub main branch used for the reported run (29 Oct 2026)
 SR = 48_000                                   # CLAP expects 48 kHz; MIMII is 16 kHz -> resampled
 EMB = config.PROCESSED_DIR / "clap_embeddings.npz"
 CFG = config.ROOT / "experiments" / "q6_config.json"
@@ -108,10 +109,10 @@ class Clap:
     def __init__(self, device: str | None = None):
         from transformers import AutoFeatureExtractor, AutoTokenizer, ClapModel
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
-        self.model = ClapModel.from_pretrained(MODEL_ID).to(self.device).eval()
-        self.fe = AutoFeatureExtractor.from_pretrained(MODEL_ID)
-        self.tok = AutoTokenizer.from_pretrained(MODEL_ID)
-        self.revision = getattr(self.model.config, "_commit_hash", None) or "unknown"
+        self.model = ClapModel.from_pretrained(MODEL_ID, revision=REVISION).to(self.device).eval()
+        self.fe = AutoFeatureExtractor.from_pretrained(MODEL_ID, revision=REVISION)
+        self.tok = AutoTokenizer.from_pretrained(MODEL_ID, revision=REVISION)
+        self.revision = getattr(self.model.config, "_commit_hash", None) or REVISION
         self.n_params = sum(p.numel() for p in self.model.parameters())
         self.n_audio_params = sum(p.numel() for n, p in self.model.named_parameters()
                                   if n.startswith(("audio_model", "audio_projection")))

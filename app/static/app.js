@@ -243,6 +243,14 @@ function renderExplanation(r) {
   warn.innerHTML = msgs.map(esc).join("<br>");
   warn.classList.toggle("hidden", !msgs.length);
 
+  const st = $("xai-status");
+  if (r.verdict === "unreliable") {
+    st.className = "xai-status bad"; st.textContent = "Not meaningful – input outside what the model knows";
+  } else if (e.check && e.check.passed) {
+    st.className = "xai-status ok"; st.textContent = "Validated explanation – the model depends on the highlighted area (not a fault diagnosis)";
+  } else {
+    st.className = "xai-status bad"; st.textContent = "Not validated – the map may look plausible, but hiding it did not lower the fault evidence. Do not rely on it.";
+  }
   $("xai-lines").innerHTML = e.summary.lines.map((l) => `<li>${esc(l)}</li>`).join("");
   const q1 = { pump: [[431, 910]], fan: [[0, 50], [479, 2400]] }[r.machine_type] || [];
   const inQ1 = (b) => q1.some(([lo, hi]) => b.lo < hi && b.hi > lo);

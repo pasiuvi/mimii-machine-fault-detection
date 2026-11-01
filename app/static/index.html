@@ -122,6 +122,7 @@
           </div>
           <div class="xai-body hidden" id="xai-body">
             <div class="xai-warn hidden" id="xai-warn"></div>
+            <div class="xai-status" id="xai-status"></div>
             <div class="seg-mini" role="tablist">
               <button type="button" class="mini active" data-view="overlay">Heat map</button>
               <button type="button" class="mini" data-view="spec">Spectrogram only</button>
@@ -143,6 +144,7 @@
               <summary>How to read this – and its limits</summary>
               <p>The heat map shows <b>where</b> in the recording the network found fault-like patterns. It does <b>not</b> show <b>why</b> the machine is faulty, and it does not prove that the highlighted sound is the real cause of the score. Grad-CAM is an approximation built from the network's last layer, so it is blurry: it works on a coarse grid of blocks (the grid size is shown below the map), not on single frequencies.</p>
               <p>The check hides the highlighted area (replaces it with an average level) and runs the network again. If the score falls more than when random areas are hidden, the model really depends on that area. A failed check means: do not trust the map for this recording.</p>
+              <p><b>Validated</b> means only that the model depends on the highlighted area (the check passed). <b>Not validated</b> means the map may look plausible but the model did not depend on it. Neither is a diagnosis of the physical fault.</p>
               <p>A clean map does not mean a healthy machine. Use the explanation to decide <b>where to listen or look</b> during an inspection, not to replace the inspection.</p>
             </details>
             <div class="footer-meta" id="xai-meta"></div>

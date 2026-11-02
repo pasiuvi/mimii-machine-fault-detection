@@ -35,10 +35,13 @@ ITEMS = {
     "Foundation model (Q6)": ["scripts/q6_clap.py", "experiments/q6_config.json", "reports/q6_selection.md",
                               "reports/q6_results.md", "reports/.q6_test_evaluated.json"],
     "Post-hoc study": ["scripts/posthoc_calibration.py", "reports/posthoc_calibration.md"],
+    "AcoustiGuard v2 – enrolment detector": ["scripts/v2_enrolment.py", "reports/v2_selection.md",
+                                             "experiments/v2_config.json", "reports/v2_test_results.md",
+                                             "reports/.v2_test_evaluated.json"],
     "Deployment": ["deploy/Dockerfile", "deploy/prepare_space.py"],
     "Model files (local only, not in Git)": ["models/final_model.pt", "models/final_model.json"],
 }
-TAGS = ["q3-before-test", "q3-test-done", "q4-web-app", "q5-xai", "q6-before-test", "q6-test-done"]
+TAGS = ["q3-before-test", "q3-test-done", "q4-web-app", "q5-xai", "q6-before-test", "q6-test-done", "v2-before-test", "v2-test-done"]
 README_WORDS = ["install", "download", "split", "train", "uvicorn", "test"]
 
 

@@ -1,0 +1,20 @@
+{
+  "feature": "clap",
+  "n_enrol": 50,
+  "k": 3,
+  "c": 2.0,
+  "decision": "alarm if >= 2 of the last 3 clips exceed the threshold",
+  "rule": "highest development recall among 80 configurations with <= 1.0 false alarm/day",
+  "development": {
+    "dev_TPR@FPR5": 0.5643,
+    "dev_AUC": 0.8668,
+    "dev_recall_2of3": 0.5599,
+    "dev_FA_day_2of3": 0.9904,
+    "dev_worst_FA_day_2of3": 1.5733,
+    "dev_min_recall_2of3": 0.0099,
+    "dev_clip_recall": 0.5402,
+    "dev_clip_FA_day": 6.1966
+  },
+  "selected_at": "2026-11-02T21:10:37",
+  "git_commit": "c3d0f14"
+}

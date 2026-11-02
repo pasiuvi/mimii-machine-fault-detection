@@ -14,6 +14,16 @@ Endpoints
   POST /api/explain               (Q5) same form as /api/predict -> prediction + Grad-CAM explanation + check
   POST /api/examples/{id}/explain (Q5) explanation for a demo clip
 
+  v2 – per-machine monitoring with enrolment (page /monitor; app/monitor.py):
+  GET    /api/monitor/machines             enrolled machines and their last checks
+  POST   /api/monitor/enrol                form: name, machine_type, files=<20-200 normal WAV/FLAC clips>
+  POST   /api/monitor/{name}/check         form: file -> unusual? + 2-of-3 alarm decision
+  POST   /api/monitor/{name}/reset         clear the check history of one machine
+  DELETE /api/monitor/{name}               remove an enrolled machine
+  GET    /api/monitor/demo                 demo machines from the project data (test machines id_06)
+  POST   /api/monitor/demo/{key}/enrol     enrol a demo machine with its 50 normal clips
+  POST   /api/monitor/demo/{key}/check/{i} check one demo clip that was NOT used for enrolment
+
 Every prediction is appended to logs/predictions.jsonl (audit trail, not committed to Git).
 """
 from __future__ import annotations
@@ -31,6 +41,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from app import monitor
 from app.inference import MAX_BYTES, FaultDetector, InputError
 from src import config
 
@@ -168,9 +179,96 @@ def example_explain(ex_id: str):
     return res
 
 
+# ------------------------------------------------------------------ v2: per-machine monitoring
+def _audit_monitor(entry: dict) -> None:
+    audit({"time": datetime.now().isoformat(timespec="seconds"), "request_id": uuid.uuid4().hex[:12],
+           "mode": "monitor", **entry})
+
+
+@app.get("/api/monitor/machines")
+def monitor_machines():
+    return {"settings": monitor.settings(), "machines": monitor.list_machines()}
+
+
+@app.post("/api/monitor/enrol")
+async def monitor_enrol(name: str = Form(...), machine_type: str = Form(...), files: list[UploadFile] = File(...)):
+    data = [(await f.read(MAX_BYTES + 1), f.filename or "") for f in files]
+    t = time.perf_counter()
+    res = monitor.enrol(name, machine_type.strip().lower(), data)
+    res["timing_ms"] = round(1000 * (time.perf_counter() - t))
+    _audit_monitor({"action": "enrol", "machine": res["id"], "n_enrol": res["n_enrol"]})
+    return res
+
+
+@app.post("/api/monitor/{name}/check")
+async def monitor_check(name: str, file: UploadFile = File(...)):
+    t = time.perf_counter()
+    res = monitor.check(name, await file.read(MAX_BYTES + 1), file.filename or "")
+    res["timing_ms"] = round(1000 * (time.perf_counter() - t))
+    _audit_monitor({"action": "check", "machine": res["machine_id"], "file": res["file"], "z": res["z"],
+                    "status": res["status"]})
+    return res
+
+
+@app.post("/api/monitor/{name}/reset")
+def monitor_reset(name: str):
+    return monitor.reset_history(name)
+
+
+@app.delete("/api/monitor/{name}")
+def monitor_delete(name: str):
+    return monitor.delete(name)
+
+
+def _demo(key: str) -> dict:
+    d = STATE.setdefault("demo_sets", monitor.demo_sets()).get(key)
+    if not d:
+        raise HTTPException(404, detail="Demo machine not found (project audio not available)")
+    return d
+
+
+@app.get("/api/monitor/demo")
+def monitor_demo():
+    sets = STATE.setdefault("demo_sets", monitor.demo_sets())
+    return [{"key": k, "name": v["name"], "machine_type": v["machine_type"], "n_enrol": len(v["enrol"]),
+             "clips": [{"i": i, "file": c["file"], "true_label": c["true_label"]} for i, c in enumerate(v["clips"])]}
+            for k, v in sets.items()]
+
+
+@app.post("/api/monitor/demo/{key}/enrol")
+def monitor_demo_enrol(key: str):
+    d = _demo(key)
+    t = time.perf_counter()
+    res = monitor.enrol(d["name"].replace(" (demo)", "-demo"), d["machine_type"],
+                        [((ROOT / p).read_bytes(), Path(p).name) for p in d["enrol"]])
+    res["timing_ms"] = round(1000 * (time.perf_counter() - t))
+    _audit_monitor({"action": "enrol-demo", "machine": res["id"], "n_enrol": res["n_enrol"]})
+    return res
+
+
+@app.post("/api/monitor/demo/{key}/check/{i}")
+def monitor_demo_check(key: str, i: int):
+    d = _demo(key)
+    if not 0 <= i < len(d["clips"]):
+        raise HTTPException(404, detail="Demo clip not found")
+    c = d["clips"][i]
+    t = time.perf_counter()
+    res = monitor.check(d["name"].replace(" (demo)", "-demo"), (ROOT / c["path"]).read_bytes(), c["file"])
+    res["timing_ms"] = round(1000 * (time.perf_counter() - t))
+    res["true_label"] = c["true_label"]
+    _audit_monitor({"action": "check-demo", "machine": res["machine_id"], "file": c["file"], "z": res["z"],
+                    "status": res["status"], "true_label": c["true_label"]})
+    return res
+
+
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 
 @app.get("/")
 def index():
     return FileResponse(STATIC / "index.html")
+
+
+@app.get("/monitor")
+def monitor_page():
+    return FileResponse(STATIC / "monitor.html")

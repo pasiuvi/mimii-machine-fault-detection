@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AcoustiGuard – Machine monitoring (v2)</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%2314b8a6'/><path d='M6 16h4l2-6 4 12 3-9 2 3h5' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15"/><path d="M6 16h4l2-6 4 12 3-9 2 3h5"/></svg>
+      <div>
+        <h1>AcoustiGuard <span class="small muted">v2</span></h1>
+        <p>Machine monitoring: each machine is compared with its own normal sound</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <a class="pill navlink" href="/">← Single-clip analysis (v1)</a>
+      <span class="pill" id="cfg-pill">Loading…</span>
+    </div>
+  </header>
+
+  <main class="mon-grid">
+    <div>
+      <!-- ============ ENROL ============ -->
+      <section class="card">
+        <h2>1. Enrol a machine</h2>
+        <p class="muted">Upload <b>normal</b> recordings of one machine that is known to be healthy (for example just after a service). Use <b>50 clips</b> (minimum 20), recorded on several days and operating conditions, with the microphone in its fixed position.</p>
+        <label class="small muted" for="m-name">Machine name</label>
+        <input class="mon-input" id="m-name" placeholder="e.g. pump-line-3" maxlength="60">
+        <div class="segmented" role="radiogroup" aria-label="Machine type" id="m-type">
+          <button class="seg active" data-type="pump" role="radio" aria-checked="true">Pump</button>
+          <button class="seg" data-type="fan" role="radio" aria-checked="false">Fan</button>
+        </div>
+        <input class="mon-input" id="m-files" type="file" accept=".wav,.flac" multiple>
+        <button class="primary" id="enrol-btn"><span class="btn-label">Enrol machine</span><span class="spinner" aria-hidden="true"></span></button>
+        <div id="enrol-msg" class="small" style="margin-top:10px"></div>
+      </section>
+
+      <!-- ============ DEMO ============ -->
+      <section class="card" id="demo-card">
+        <h2>Demo machines</h2>
+        <p class="muted small">From the project data: the held-out test machines id_06. Enrolment uses 50 normal clips (the same draw as the v2 test); the clips below were <b>not</b> used for enrolment.</p>
+        <div id="demo-list" class="small muted">Loading…</div>
+      </section>
+
+      <!-- ============ MACHINES ============ -->
+      <section class="card">
+        <h2>Enrolled machines</h2>
+        <div id="machines" class="small muted">None yet.</div>
+      </section>
+    </div>
+
+    <div>
+      <!-- ============ CHECK ============ -->
+      <section class="card">
+        <h2>2. Check a new recording</h2>
+        <p class="muted">Select an enrolled machine, then upload a new 10-second clip. One unusual clip gives <b>Watch</b>; an <b>Alarm</b> needs 2 of the last 3 clips to be unusual.</p>
+        <div class="mon-row">
+          <span class="small">Machine:</span><b id="sel-name">– select on the left –</b>
+        </div>
+        <input class="mon-input" id="c-file" type="file" accept=".wav,.flac">
+        <div class="mon-row">
+          <button class="primary" id="check-btn" disabled><span class="btn-label">Check recording</span><span class="spinner" aria-hidden="true"></span></button>
+          <button class="ghost" id="reset-btn" disabled>Clear history</button>
+        </div>
+        <div id="result"></div>
+      </section>
+
+      <section class="card limits-card">
+        <h2>How to read this – and its limits</h2>
+        <ul class="small">
+          <li><b>What it measures:</b> how far the new clip is from this machine's own enrolment clips, compared with how far the enrolment clips are from each other (z-score). It does not say which fault it is.</li>
+          <li><b>Evidence (v2 study):</b> settings chosen on 6 development machines, tested once on id_06: 81 % of faults caught with about 0.9 false alarms per machine per day (2-of-3 rule). Development fans id_00 and id_04 were much weaker (1 % and 9 %).</li>
+          <li><b>Assumptions:</b> enrolment clips are truly healthy and cover normal operating conditions; the 2-of-3 numbers assume clips are independent, so real false alarms may be higher.</li>
+          <li><b>Re-enrol</b> after maintenance, a new microphone position or a change of load. Changes in the recording set-up also look "unusual".</li>
+          <li>A screening aid for the maintenance engineer. It never replaces a scheduled inspection, and the test machine id_06 had been used before, so this is not yet proof on a new site.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <script src="/static/monitor.js"></script>
+</body>
+</html>

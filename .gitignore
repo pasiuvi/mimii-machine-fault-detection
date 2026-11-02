@@ -33,9 +33,5 @@ Thumbs.db
 # --- Secrets (API keys for GenAI later) ---
 .env
 
-# Q3: keep the small per-run logs (history.csv, summary.json)
-!experiments/runs/
-!experiments/archive/**/runs/
-
-# Q4: prediction audit log (local only)
-logs/
+# --- v2 enrolled machines (local data) ---
+monitor_data/

@@ -1,0 +1,101 @@
+{
+  "config": {
+    "feature": "clap",
+    "n_enrol": 50,
+    "k": 3,
+    "c": 2.0,
+    "decision": "alarm if >= 2 of the last 3 clips exceed the threshold",
+    "rule": "highest development recall among 80 configurations with <= 1.0 false alarm/day",
+    "development": {
+      "dev_TPR@FPR5": 0.5643,
+      "dev_AUC": 0.8668,
+      "dev_recall_2of3": 0.5599,
+      "dev_FA_day_2of3": 0.9904,
+      "dev_worst_FA_day_2of3": 1.5733,
+      "dev_min_recall_2of3": 0.0099,
+      "dev_clip_recall": 0.5402,
+      "dev_clip_FA_day": 6.1966
+    },
+    "selected_at": "2026-11-02T21:10:37",
+    "git_commit": "c3d0f14"
+  },
+  "per_machine": [
+    {
+      "machine": "fan id_06",
+      "approach": "v2 selected (clap, n=50, k=3, c=2)",
+      "TPR@FPR5": 0.712,
+      "AUC": 0.925,
+      "clip_recall": 0.712,
+      "clip_FA_day": 6.655,
+      "recall_2of3": 0.8,
+      "FA_day_2of3": 0.97,
+      "recall_2of3_sd": 0.004,
+      "FA_day_2of3_sd": 0.597
+    },
+    {
+      "machine": "fan id_06",
+      "approach": "reference: fine-tuned FaultCNN embedding, same protocol",
+      "TPR@FPR5": 0.823,
+      "AUC": 0.97,
+      "clip_recall": 0.784,
+      "clip_FA_day": 5.581,
+      "recall_2of3": 0.878,
+      "FA_day_2of3": 0.682,
+      "recall_2of3_sd": 0.036,
+      "FA_day_2of3_sd": 0.486
+    },
+    {
+      "machine": "pump id_06",
+      "approach": "v2 selected (clap, n=50, k=3, c=2)",
+      "TPR@FPR5": 0.835,
+      "AUC": 0.97,
+      "clip_recall": 0.751,
+      "clip_FA_day": 5.725,
+      "recall_2of3": 0.824,
+      "FA_day_2of3": 0.747,
+      "recall_2of3_sd": 0.162,
+      "FA_day_2of3_sd": 0.518
+    },
+    {
+      "machine": "pump id_06",
+      "approach": "reference: fine-tuned FaultCNN embedding, same protocol",
+      "TPR@FPR5": 0.304,
+      "AUC": 0.822,
+      "clip_recall": 0.331,
+      "clip_FA_day": 8.558,
+      "recall_2of3": 0.258,
+      "FA_day_2of3": 1.564,
+      "recall_2of3_sd": 0.062,
+      "FA_day_2of3_sd": 0.92
+    }
+  ],
+  "macro": [
+    {
+      "approach": "v2 selected (clap, n=50, k=3, c=2)",
+      "TPR@FPR5": 0.774,
+      "AUC": 0.948,
+      "clip_recall": 0.732,
+      "clip_FA_day": 6.19,
+      "recall_2of3": 0.812,
+      "FA_day_2of3": 0.858,
+      "recall_2of3_sd": 0.083,
+      "FA_day_2of3_sd": 0.558
+    },
+    {
+      "approach": "reference: fine-tuned FaultCNN embedding, same protocol",
+      "TPR@FPR5": 0.564,
+      "AUC": 0.896,
+      "clip_recall": 0.558,
+      "clip_FA_day": 7.07,
+      "recall_2of3": 0.568,
+      "FA_day_2of3": 1.123,
+      "recall_2of3_sd": 0.049,
+      "FA_day_2of3_sd": 0.703
+    }
+  ],
+  "locked_v1_reference": {
+    "final_ANN_test_macro_TPR@FPR5": 0.032,
+    "CLAP_enrol20_test_macro_TPR@FPR5": 0.622,
+    "posthoc_FA_day_CLAP_enrol20": 70.8
+  }
+}

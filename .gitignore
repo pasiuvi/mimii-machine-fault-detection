@@ -35,3 +35,7 @@ Thumbs.db
 
 # --- v2 enrolled machines (local data) ---
 monitor_data/
+
+# --- local files (not part of the code) ---
+logs/
+sample_data.zip

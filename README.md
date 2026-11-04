@@ -90,7 +90,16 @@ python -m scripts.v2_enrolment test                  # refuses to run twice (rep
 # Check the submission package
 python -m scripts.check_submission --tests
 ```
-**Model files:** `models/` is not in Git because of its size. The trained models (`final_model.pt/.json`, `E026.pt`, `E026_s44.pt`) are attached to the GitHub **Release v1.0**. Download them into `models/`, or retrain with the Q3 commands.
+## Release 1.0 – trained models and data sample
+[Release v1.0](https://github.com/pasiuvi/mimii-machine-fault-detection/releases/tag/v1.0) is the **first published package** of this project. It contains **both approaches**: v1 (FaultCNN classifier, page `/`) and v2 (per-machine enrolment monitoring, page `/monitor`). "v1.0" is the release number, not the model version.
+
+| File | Put it in | Used by |
+|---|---|---|
+| `final_model.pt`, `final_model.json` | `models/` | Deployed FaultCNN (E026, seed 43) and its thresholds (v1 page, XAI) |
+| `E026.pt`, `E026_s44.pt` | `models/` | The two extra seeds for seed agreement (v1 page) |
+| `sample_data.zip` | unzip into `data/sample/` | 320 representative MIMII clips (pump + fan, normal + abnormal, channel 0) to test the code without the 17.9 GB download |
+
+`models/` and the audio are not in Git because of their size. v2 downloads the pinned CLAP model from the Hugging Face Hub on first use. The full dataset is downloaded and MD5-checked with `python -m scripts.download_mimii`; the sample is made with `python -m scripts.make_sample --per-group 20`. The data sample is from the MIMII dataset (Purohit et al., 2019, DOI 10.5281/zenodo.3384388), CC BY-SA 4.0, redistributed unchanged under the same licence.
 
 ## Rules followed (reproducibility and honesty)
 - One fixed split by machine ID; the test machine was used once per model family and locked (Git tags `q3-test-done`, `q6-test-done`).

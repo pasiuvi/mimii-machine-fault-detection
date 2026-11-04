@@ -114,4 +114,4 @@ python -m scripts.check_submission --tests
 - Before any operational use: validation on many more machines, sensors, loads and noise levels; false alarms per operating day agreed with maintenance; drift monitoring; access control and audit; and a safe escalation path (the app never replaces a scheduled inspection).
 
 ## Licence and data
-Code: for assessment and portfolio use. Data: MIMII dataset, CC BY-SA 4.0 (not redistributed; use the download script). CLAP weights: LAION, from the Hugging Face Hub.
+Code: for assessment and portfolio use. Data: MIMII dataset, CC BY-SA 4.0. The full dataset is not redistributed (use the download script); only the small sample in Release v1.0 is shared, unchanged and under the same licence. CLAP weights: LAION, from the Hugging Face Hub.
